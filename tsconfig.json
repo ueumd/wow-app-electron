@@ -9,7 +9,10 @@
     "src/renderer/src/env.d.ts",
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.vue",
-    "src/preload/*.d.ts"
+    "src/preload/*.d.ts",
+    "src/types/*.d.ts",
+    "/package.json",
+    "/scripts/**/*"
   ],
   "compilerOptions": {
     "composite": true,

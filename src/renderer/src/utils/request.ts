@@ -15,9 +15,8 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   (config: any) => {
-    const userStore = store.userStore
-    if (userStore?.token) {
-      config.headers.Authorization = userStore.token
+    if (store.userinfo?.token) {
+      config.headers.Authorization = store.userinfo.token
     }
 
     config.headers['Accept-Language'] = cache.getLanguage()
@@ -33,7 +32,7 @@ service.interceptors.request.use(
 
     return config
   },
-  error => {
+  (error) => {
     return Promise.reject(error)
   }
 )
@@ -81,7 +80,7 @@ service.interceptors.response.use(
         try {
           const { data } = await getRefreshToken(refreshToken)
           // 设置新 token
-          store.userStore.setToken(data.access_token)
+          store.userinfo.setToken(data.access_token)
           config.headers!.Authorization = data.access_token
           requests.forEach((cb: any) => {
             cb()
@@ -101,9 +100,9 @@ service.interceptors.response.use(
         }
       } else {
         // 多个请求的情况
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           requests.push(() => {
-            config.headers!.Authorization = store.userStore.getToken()
+            config.headers!.Authorization = store.userinfo.getToken()
             resolve(service(config))
           })
         })
@@ -115,7 +114,7 @@ service.interceptors.response.use(
 
     return Promise.reject(new Error(res.msg || 'Error'))
   },
-  error => {
+  (error) => {
     ElMessage.error(error.message)
     return Promise.reject(error)
   }
@@ -129,8 +128,8 @@ const handleAuthorized = () => {
     confirmButtonText: '重新登录',
     type: 'warning'
   }).then(() => {
-    store.userStore?.setToken('')
-    store.userStore?.setRefreshToken('')
+    store.userinfo.setToken('')
+    store.userinfo.setRefreshToken('')
     location.reload()
 
     return Promise.reject('登录超时，请重新登录')

@@ -8,6 +8,7 @@ export interface ViteEnv {
   VITE_OUT_DIR: string
   VITE_AXIOS_BASE_URL: string
   VITE_PROXY_URL: string
+  VITE_APP_TITLE: string
 }
 
 export function isDev(mode: string): boolean {

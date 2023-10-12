@@ -1,19 +1,17 @@
 import { defineStore } from 'pinia'
 
-
 export const useUserinfo = defineStore('userinfo', {
-  state()  {
+  state() {
     return {
       id: '',
       username: '',
       password: '',
       nickname: '',
       token: '',
-      refreshToken: '',
+      refreshToken: ''
     }
   },
   actions: {
-
     dataFill(state) {
       this.$state = { ...this.$state, ...state }
     },
@@ -36,13 +34,9 @@ export const useUserinfo = defineStore('userinfo', {
         username: '',
         password: '',
         nickname: '',
-        email: '',
-        phone: '',
-        liveRoom: '',
-        liveRoomPassword: '',
         token: '',
-        refreshToken: '',
+        refreshToken: ''
       }
-    },
-  },
+    }
+  }
 })

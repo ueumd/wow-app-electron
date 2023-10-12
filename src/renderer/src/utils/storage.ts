@@ -5,7 +5,7 @@
  * @method remove 移除
  * @method clear 移除全部
  */
-export const Local = {
+export const Storage = {
   setItem(key: string, val: any) {
     window.localStorage.setItem(key, JSON.stringify(val))
   },
@@ -18,7 +18,7 @@ export const Local = {
   },
   clear() {
     window.localStorage.clear()
-  },
+  }
 }
 
 /**
@@ -41,5 +41,5 @@ export const Session = {
   },
   clear() {
     window.sessionStorage.clear()
-  },
+  }
 }

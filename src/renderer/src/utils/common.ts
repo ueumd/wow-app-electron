@@ -1,7 +1,6 @@
 import { ElForm } from 'element-plus'
 import { useTitle } from '@vueuse/core'
 
-
 /**
  * 加载网络css文件
  * @param url css资源url
@@ -40,7 +39,7 @@ export function isExternal(path: string): boolean {
 export const debounce = (fn: Function, ms: number) => {
   return (...args: any[]) => {
     if (window.lazy) {
-      clearTimeout(window?.lazy)
+      clearTimeout(window.lazy)
     }
     window.lazy = window.setTimeout(() => {
       fn(...args)
@@ -113,7 +112,6 @@ export function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-
 /**
  * 设置浏览器标题-只能在路由加载完成后调用
  * @param webTitle 新的标题
@@ -124,8 +122,6 @@ export function setTitle(webTitle: string) {
   title.value = webTitle
 }
 
-
-
 export function uuidv4() {
   let d = new Date().getTime()
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -135,14 +131,16 @@ export function uuidv4() {
   })
 }
 
-
 /**
  * https://github.com/scopsy/await-to-js/blob/master/src/await-to-js.ts
  * @param { Promise } promise
  * @param { Object= } errorExt - Additional Information you can pass to the err object
  * @return { Promise }
  */
-export function to<T, U = Error>(promise: Promise<T>, errorExt?: object): Promise<[U, undefined] | [null, T]> {
+export function to<T, U = Error>(
+  promise: Promise<T>,
+  errorExt?: object
+): Promise<[U, undefined] | [null, T]> {
   return promise
     .then<[null, T]>((data: T) => [null, data])
     .catch<[U, undefined]>((err: U) => {

@@ -1,38 +1,51 @@
-import { app, shell, BrowserWindow } from 'electron'
-import { join } from 'path'
+import { app, BrowserWindow, dialog } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+import MultiWindows from './core/window'
 
-function createWindow(): void {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
-    show: false,
-    autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
-    webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+// 创建主窗口
+const createAppWindow = async () => {
+  const mainWindow = await MultiWindows.createPrimaryWindow({
+    isPrimaryWindow: true,
+    isMultiWindow: false,
+    width: 1600,
+    height: 900,
+    frame: true,
+    show: true,
+    autoHideMenuBar: true
+  })
+
+  mainWindow.on('close', (event) => {
+    event.preventDefault()
+    dialog
+      .showMessageBox(mainWindow, {
+        type: 'info',
+        noLink: true, //win下的样式
+        title: '  哇塞',
+        message: '确认退出吗？',
+        buttons: ['取消', '确定']
+      })
+      .then((index) => {
+        if (index.response === 1) {
+          app.exit()
+        }
+      })
+  })
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+    if (is.dev) {
+      mainWindow.setContentProtection(true)
+      mainWindow.webContents.on('before-input-event', (event, input) => {
+        // 当 Ctrl/Cmd are down 被按下，仅开启应用程序菜单键盘快捷键。
+        mainWindow.webContents.setIgnoreMenuShortcuts(!input.control && !input.meta)
+        const key = input.key.toLowerCase()
+        if (input.control && ['i', 'm', 'r'].includes(key)) {
+          console.log('Pressed Control+' + key)
+          event.preventDefault()
+        }
+      })
     }
   })
-
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
-  })
-
-  mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
-  })
-
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
-  }
 }
 
 // This method will be called when Electron has finished
@@ -49,12 +62,12 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  createWindow()
+  createAppWindow()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    if (BrowserWindow.getAllWindows().length === 0) createAppWindow()
   })
 })
 

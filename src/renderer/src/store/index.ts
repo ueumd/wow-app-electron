@@ -6,18 +6,12 @@ pinia.use(piniaPluginPersistedstate)
 
 // export default pinia
 
-
 import { useUserinfo } from './userinfo'
 
-
-export interface IAppStore {
-  userinfo: ReturnType<typeof useUserinfo>
-}
-
-const store: IAppStore = {} as IAppStore
+const store: any = {}
 
 export const registerStore = () => {
   store.userinfo = useUserinfo()
 }
 
-export { store }
+export default store
