@@ -41,7 +41,7 @@ export default {
   },
   silly(...param: any) {
     log.silly(param)
-  },
+  }
 }
 
 // log.info(`[logger] logger initialized`)

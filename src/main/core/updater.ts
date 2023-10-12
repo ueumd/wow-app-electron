@@ -13,7 +13,7 @@ const message = {
   checking: { status: 0, msg: '正在检查更新……' },
   updateAva: { status: 1, msg: '检测到新版本，正在下载……' },
   updateNotAva: { status: -1, msg: '已经是最新版本' },
-  updateDownload: { status: 2, msg: '正在下载' },
+  updateDownload: { status: 2, msg: '正在下载' }
 }
 
 export function updateAppClient(mainWindow: any) {
@@ -97,7 +97,7 @@ export function updateAppClient(mainWindow: any) {
       bytesPerSecond: progressObj.bytesPerSecond,
       percent: progressObj.percent, // 下载进度百分比
       transferred: progressObj.transferred,
-      total: progressObj.total,
+      total: progressObj.total
     }
     mainWindow.webContents.send('downloadProgress', info)
   })
