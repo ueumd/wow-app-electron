@@ -1,6 +1,5 @@
 import { app, BrowserWindow, ipcMain, Menu, Tray } from 'electron'
 import path, { join } from 'path'
-import { is } from '@electron-toolkit/utils'
 import { IWindowGroup, IWindowsConfig } from '../../types/electron-env'
 import type { EelectronWindowType } from '../../types/electron-env'
 import { isDev } from './utils'
@@ -91,6 +90,22 @@ class MultiWindows {
     return windowOpt
   }
 
+  getWindowUrl(args, winId) {
+    let winUrl = INDEX_HTML_PATH
+    if (isDev) {
+      // electron-vite-vue#298
+      winUrl = args.pageRoute
+        ? `${ELECTRON_RENDERER_URL}#${args.pageRoute}?winId=${winId}`
+        : ELECTRON_RENDERER_URL
+    } else {
+      winUrl = args.pageRoute
+        ? `${INDEX_HTML_PATH}#${args.pageRoute}?winId=${winId}`
+        : `${INDEX_HTML_PATH}`
+    }
+
+    return winUrl
+  }
+
   /**
    * 创建主窗口（维一）
    * @param args 传入参数配置
@@ -129,21 +144,47 @@ class MultiWindows {
 
     // HMR for renderer base on electron-vite cli.
     // Load the remote URL for development or the local html file for production.
-    let winUrl = INDEX_HTML_PATH
-    if (is.dev) {
-      // electron-vite-vue#298
-      winUrl = args.pageRoute
-        ? `${ELECTRON_RENDERER_URL}#${args.pageRoute}?winId=${this.primaryWindow.id}`
-        : ELECTRON_RENDERER_URL
+    let winUrl = this.getWindowUrl(args, this.primaryWindow.id)
+    if (isDev) {
       await this.primaryWindow.loadURL(winUrl)
     } else {
-      winUrl = args.pageRoute
-        ? `${INDEX_HTML_PATH}#${args.pageRoute}?winId=${this.primaryWindow.id}`
-        : `${INDEX_HTML_PATH}`
       await this.primaryWindow.loadFile(winUrl)
     }
 
     return this.primaryWindow
+  }
+
+  /**
+   * 创建子窗口
+   * @param args
+   */
+  async createChildWindow(args: IWindowsConfig) {
+    const windowOpt = this.getUserConfig(args)
+
+    // 创建窗口对象
+    const childWindow = new BrowserWindow(windowOpt) as EelectronWindowType
+
+    if (isDev) {
+      childWindow.setMaximizable(windowOpt.maximizable)
+      childWindow.setResizable(windowOpt.resizable)
+      childWindow.webContents.openDevTools()
+      // primaryWindow.setMinimumSize(1600, 900)
+    } else {
+      childWindow.setMinimumSize(1600, 900)
+      // 设置窗口是否可以由用户手动最大化
+      childWindow.setMaximizable(false)
+      // 设置用户是否可以调节窗口尺寸
+      childWindow.setResizable(true)
+    }
+
+    let winUrl = this.getWindowUrl(args, childWindow.id)
+    if (isDev) {
+      await childWindow.loadURL(winUrl)
+    } else {
+      await childWindow.loadFile(winUrl)
+    }
+
+    return childWindow
   }
 
   /**

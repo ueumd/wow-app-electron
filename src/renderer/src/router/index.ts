@@ -2,14 +2,16 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+import { staticRoutes } from '@renderer/router/static'
+
 NProgress.configure({ showSpinner: false })
 
-const constantRoutes: RouteRecordRaw[] = [
-  {
-    path: '/',
-    component: () => import('@renderer/views/home.vue')
-  }
-]
+// const constantRoutes: RouteRecordRaw[] = [
+//   {
+//     path: '/',
+//     component: () => import('@renderer/views/home.vue')
+//   }
+// ]
 
 export const errorRoute: RouteRecordRaw = {
   path: '/:pathMatch(.*)',
@@ -18,7 +20,7 @@ export const errorRoute: RouteRecordRaw = {
 
 export const router = createRouter({
   history: createWebHashHistory(),
-  routes: constantRoutes
+  routes: staticRoutes
 })
 
 // 路由跳转前

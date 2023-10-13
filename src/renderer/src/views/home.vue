@@ -1,97 +1,45 @@
 <script setup lang="ts">
-console.log(window.nodeFseApi)
+import { onMounted } from 'vue'
+
 const test = () => {
+  console.log(window.nodeFseApi)
   window.nodeFseApi.remove('/xxff/ff')
 }
 
-console.log(test)
+const openWin = (url, title) => {
+  console.log(url, title)
+}
+const openWin2 = (url, title) => {
+  console.log(url, title)
+}
+
+const closeWin = () => {}
+const sendMsgByTitle = (title) => {
+  console.log(title)
+}
+
+onMounted(() => {
+  test()
+})
 </script>
 
 <template>
-  <h2 class="hero-text">You've successfully created an Electron project with Vue and TypeScript</h2>
-  <p class="hero-tagline">Please try pressing <code>F12</code> to open the devTool</p>
-
-  <div class="links">
-    <div class="link-item">
-      <a target="_blank" href="https://electron-vite.org">Documentation</a>
-    </div>
-    <div class="link-item link-dot">•</div>
-    <div class="link-item">
-      <a target="_blank" href="https://github.com/alex8088/electron-vite">Getting Help</a>
-    </div>
-    <div class="link-item link-dot">•</div>
-    <div class="link-item">
-      <a
-        target="_blank"
-        href="https://github.com/alex8088/quick-start/tree/master/packages/create-electron"
+  <el-row class="mg">
+    <el-col :span="8">
+      <el-button type="primary" @click="openWin('/child-window-one', '子窗口一')"
+        >打开子窗口一</el-button
       >
-        create-electron
-      </a>
-    </div>
-  </div>
-
-  <div class="features">
-    <div class="feature-item">
-      <article>
-        <h2 class="title">Configuring</h2>
-        <p class="detail">
-          Config with <span>electron.vite.config.ts</span> and refer to the
-          <a target="_blank" href="https://electron-vite.org/config">config guide</a>.
-        </p>
-      </article>
-    </div>
-    <div class="feature-item">
-      <article>
-        <h2 class="title">HMR</h2>
-        <p class="detail">
-          Edit <span>src/renderer</span> files to test HMR. See
-          <a target="_blank" href="https://electron-vite.org/guide/hmr.html">docs</a>.
-        </p>
-      </article>
-    </div>
-    <div class="feature-item">
-      <article>
-        <h2 class="title">Hot Reloading</h2>
-        <p class="detail">
-          Run <span>'electron-vite dev --watch'</span> to enable. See
-          <a target="_blank" href="https://electron-vite.org/guide/hot-reloading.html">docs</a>.
-        </p>
-      </article>
-    </div>
-    <div class="feature-item">
-      <article>
-        <h2 class="title">Debugging</h2>
-        <p class="detail">
-          Check out <span>.vscode/launch.json</span>. See
-          <a target="_blank" href="https://electron-vite.org/guide/debugging.html">docs</a>.
-        </p>
-      </article>
-    </div>
-    <div class="feature-item">
-      <article>
-        <h2 class="title">Source Code Protection</h2>
-        <p class="detail">
-          Supported via built-in plugin <span>bytecodePlugin</span>. See
-          <a target="_blank" href="https://electron-vite.org/guide/source-code-protection.html">
-            docs
-          </a>
-          .
-        </p>
-      </article>
-    </div>
-    <div class="feature-item">
-      <article>
-        <h2 class="title">Packaging</h2>
-        <p class="detail">
-          Use
-          <a target="_blank" href="https://www.electron.build">electron-builder</a>
-          and pre-configured to pack your app.
-        </p>
-      </article>
-    </div>
-  </div>
+      <el-button type="primary" @click="closeWin">关闭窗口</el-button>
+      <el-button type="success" @click="sendMsgByTitle('子窗口一')">send msg</el-button>
+    </el-col>
+    <el-col :span="8">
+      <el-button type="primary" @click="openWin2('/child-window-two', '子窗口二')"
+        >打开子窗口二</el-button
+      >
+      <el-button type="success" @click="sendMsgByTitle('子窗口二')">send msg</el-button>
+    </el-col>
+    <el-col :span="8"> </el-col>
+  </el-row>
 </template>
 
-<style lang="less">
-@import '../assets/css/styles.less';
-</style>
+<style lang="less"></style>
