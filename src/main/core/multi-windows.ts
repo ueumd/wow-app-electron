@@ -5,15 +5,9 @@ import { IWindowGroup, IWindowsConfig } from '../../types/electron-env'
 import type { EelectronWindowType } from '../../types/electron-env'
 import { isDev } from './utils'
 
-process.env.DIST_ELECTRON = join(__dirname, '..')
-process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
-process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
-  ? join(process.env.DIST_ELECTRON, '../public')
-  : process.env.DIST
-
 const preload = join(__dirname, '../preload/index.js')
 
-const INDEX_HTML_PATH = join(process.env.DIST, '../renderer/index.html')
+const INDEX_HTML_PATH = join(__dirname, '../renderer/index.html')
 const ELECTRON_RENDERER_URL = process.env['ELECTRON_RENDERER_URL'] || INDEX_HTML_PATH
 
 // 新建窗口时可以传入的一些options配置项
@@ -44,7 +38,7 @@ const ELECTRON_RENDERER_URL = process.env['ELECTRON_RENDERER_URL'] || INDEX_HTML
 // }
 
 /**
- * 窗口配置
+ * 窗口管理
  */
 class MultiWindows {
   // 主窗口
@@ -54,8 +48,8 @@ class MultiWindows {
   // 托盘
   private tray = {} as Tray
 
-  // 窗口配置
   /**
+   * Electron 窗口配置选项
    * https://electron.nodejs.cn/docs/latest/api/structures/browser-window-options/
    */
   getElectronWindowDefaultConfig() {
@@ -141,12 +135,14 @@ class MultiWindows {
       winUrl = args.pageRoute
         ? `${ELECTRON_RENDERER_URL}#${args.pageRoute}?winId=${this.primaryWindow.id}`
         : ELECTRON_RENDERER_URL
+      await this.primaryWindow.loadURL(winUrl)
     } else {
       winUrl = args.pageRoute
         ? `${INDEX_HTML_PATH}#${args.pageRoute}?winId=${this.primaryWindow.id}`
         : `${INDEX_HTML_PATH}`
+      await this.primaryWindow.loadFile(winUrl)
     }
-    await this.primaryWindow.loadURL(winUrl)
+
     return this.primaryWindow
   }
 
@@ -262,12 +258,12 @@ class MultiWindows {
     })
 
     // 最小化
-    ipcMain.on('window-mini', (_) => {
+    ipcMain.on('window-mini', () => {
       this.getFocusedWindow().minimize()
     })
 
     // 最大化
-    ipcMain.on('window-max', (_) => {
+    ipcMain.on('window-max', () => {
       const win = this.getFocusedWindow()
       if (win.isMaximized()) {
         // 还原
@@ -283,7 +279,7 @@ class MultiWindows {
      * app.quit()并不能保证程序一定会退出
      * 在before-quit，will-quit中调用event.preventDefault()或者在window的close事件回调函数中阻止窗口关闭
      */
-    ipcMain.on('app-quit', (_) => {
+    ipcMain.on('app-quit', () => {
       app.quit()
     })
 
@@ -291,7 +287,7 @@ class MultiWindows {
      * 强制退出
      * 退出程序，销毁窗口
      */
-    ipcMain.on('app-exit', (_) => {
+    ipcMain.on('app-exit', () => {
       app.exit()
     })
 

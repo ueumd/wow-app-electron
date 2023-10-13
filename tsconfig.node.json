@@ -4,8 +4,8 @@
     "electron.vite.config.*",
     "src/main/**/*",
     "src/preload/**/*",
-    "./package.json",
-    "./scripts/**/*"
+    "package.json",
+    "scripts/**/*"
   ],
   "compilerOptions": {
     "composite": true,

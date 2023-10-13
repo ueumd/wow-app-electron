@@ -1,8 +1,12 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { NodeFseApi } from './lib/node-fse-api'
 
-// Custom APIs for renderer
-const api = {}
+const nodeFseApi = NodeFseApi.getInstance()
+
+type INodeFseApi = NodeFseApi
+
+export type { INodeFseApi }
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
@@ -10,7 +14,7 @@ const api = {}
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
+    contextBridge.exposeInMainWorld('nodeFseApi', nodeFseApi)
   } catch (error) {
     console.error(error)
   }
@@ -18,5 +22,5 @@ if (process.contextIsolated) {
   // @ts-ignore (define in dts)
   window.electron = electronAPI
   // @ts-ignore (define in dts)
-  window.api = api
+  window.nodeFseApi = nodeFseApi
 }

@@ -36,7 +36,7 @@ export function isExternal(path: string): boolean {
  * @param fn 执行函数
  * @param ms 间隔毫秒数
  */
-export const debounce = (fn: Function, ms: number) => {
+export const debounce = (fn: (...T) => void, ms: number) => {
   return (...args: any[]) => {
     if (window.lazy) {
       clearTimeout(window.lazy)
@@ -70,16 +70,6 @@ export const onResetForm = (formEl: InstanceType<typeof ElForm> | undefined) => 
   if (!formEl) return
   formEl.resetFields && formEl.resetFields()
 }
-
-/**
- * 是否为手机设备
- */
-export const isMobile = () => {
-  return !!navigator.userAgent.match(
-    /android|webos|ip(hone|ad|od)|opera (mini|mobi|tablet)|iemobile|windows.+(phone|touch)|mobile|fennec|kindle (Fire)|Silk|maemo|blackberry|playbook|bb10\; (touch|kbd)|Symbian(OS)|Ubuntu Touch/i
-  )
-}
-
 /**
  * 数字千位分隔符格式
  * @param value

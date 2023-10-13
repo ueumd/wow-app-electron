@@ -10,10 +10,6 @@ import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/display.css'
 import '@renderer/styles/index.scss'
 
-import { config } from '@renderer/config'
-
-console.log(config)
-
 const start = (): void => {
   const app = createApp(App)
   app.config.globalProperties.$mitt = emitter

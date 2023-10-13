@@ -4,6 +4,7 @@ import { autoUpdater } from 'electron-updater'
 import logger from './logger'
 import { isDev } from './utils'
 import path from 'path'
+import { EelectronWindowType } from '../../types/electron-env'
 
 // 更新地址
 const updateURL = 'https://xxxx.com/app/'
@@ -16,7 +17,7 @@ const message = {
   updateDownload: { status: 2, msg: '正在下载' }
 }
 
-export function updateAppClient(mainWindow: any) {
+export function updateAppClient(mainWindow: EelectronWindowType) {
   // 若执行删除操作，每次检查更新都会重新下载更新包，
   // 若不执行删除操作,在已有更新包的情况下,会直接跳过下载事件,直接进行安装操作
   // deleteUpdate()

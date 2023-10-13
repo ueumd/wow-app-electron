@@ -1,8 +1,10 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
+import type { INodeFseApi } from '../preload'
 declare global {
   interface Window {
     electronAPI: ElectronAPI
     lazy: number
+    nodeFseApi: INodeFseApi
     requests: []
   }
 

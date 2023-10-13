@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import MultiWindows from './core/window'
+import MultiWindows from './core/multi-windows'
 
 // 创建主窗口
 const createAppWindow = async () => {
@@ -34,16 +34,16 @@ const createAppWindow = async () => {
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
     if (is.dev) {
-      mainWindow.setContentProtection(true)
-      mainWindow.webContents.on('before-input-event', (event, input) => {
-        // 当 Ctrl/Cmd are down 被按下，仅开启应用程序菜单键盘快捷键。
-        mainWindow.webContents.setIgnoreMenuShortcuts(!input.control && !input.meta)
-        const key = input.key.toLowerCase()
-        if (input.control && ['i', 'm', 'r'].includes(key)) {
-          console.log('Pressed Control+' + key)
-          event.preventDefault()
-        }
-      })
+      // mainWindow.setContentProtection(true)
+      // mainWindow.webContents.on('before-input-event', (event, input) => {
+      //   // 当 Ctrl/Cmd are down 被按下，仅开启应用程序菜单键盘快捷键。
+      //   mainWindow.webContents.setIgnoreMenuShortcuts(!input.control && !input.meta)
+      //   const key = input.key.toLowerCase()
+      //   if (input.control && ['i', 'm', 'r'].includes(key)) {
+      //     console.log('Pressed Control+' + key)
+      //     event.preventDefault()
+      //   }
+      // })
     }
   })
 }
