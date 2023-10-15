@@ -121,7 +121,7 @@ export function updateAppClient(mainWindow: EelectronWindowType) {
         })
       logger.info('开始更新')
       // 3秒后退出并安装，可控制
-      mainWindow.isUpdateNow = true
+      // mainWindow.isUpdateNow = true
       setTimeout(() => {
         // autoUpdater.quitAndInstall()
         autoUpdater.quitAndInstall(true, true) // 包下载完成后，重启当前的应用并且安装更新

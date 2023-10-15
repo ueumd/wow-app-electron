@@ -5,22 +5,22 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const state = reactive({
-  parentTitle: '',
+  parentTitle: ''
 })
 const recParentWindowMessage = () => {
-  window.ipcOn.recParentWindowMessage((res) => {
+  window.ipcApi.recParentWindowMessage((res) => {
     console.log('parent window message: ', res)
     state.parentTitle = res.data.parentTitle
   })
 }
 
 const sendMsg = (title: string) => {
-  window.ipcSend.sendMsgToParentWindow({
+  window.ipcApi.sendMsgToParentWindow({
     title: state.parentTitle,
     data: {
       title,
-      time: Date.now(),
-    },
+      time: Date.now()
+    }
   })
 }
 

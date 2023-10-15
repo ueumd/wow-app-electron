@@ -9,17 +9,29 @@ const test = () => {
 const openWin = (url, title) => {
   console.log(url, title)
 }
+
 const openWin2 = (url, title) => {
   console.log(url, title)
 }
 
 const closeWin = () => {}
+
 const sendMsgByTitle = (title) => {
   console.log(title)
+  window.ipcApi.send({
+    name: 'hello',
+    data: {
+      id: Date.now()
+    }
+  })
 }
 
 onMounted(() => {
   test()
+
+  window.ipcApi.on((res) => {
+    console.log(11111, res)
+  })
 })
 </script>
 
@@ -40,6 +52,7 @@ onMounted(() => {
     </el-col>
     <el-col :span="8"> </el-col>
   </el-row>
+  <el-row> </el-row>
 </template>
 
 <style lang="less"></style>

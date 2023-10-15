@@ -12,8 +12,9 @@
     "src/renderer/src/**/*.vue",
     "src/preload/*.d.ts",
     "src/types/*.d.ts",
+    "src/channel/**/*.ts",
     "package.json",
-    "scripts/**/*"
+    "scripts/**/*",
   ],
   "exclude": ["node_modules"],
   "compilerOptions": {

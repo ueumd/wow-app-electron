@@ -29,7 +29,7 @@ const singleWindow: Array<RouteRecordRaw> = [
   },
   {
     path: '/child-window-two',
-    component: () => import('@renderer/views/window/child-window-two.vue'),
+    component: () => import('@renderer/views/test/child-window-two.vue'),
     meta: {
       title: pageTitle('子窗口二')
     }

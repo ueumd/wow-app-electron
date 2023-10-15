@@ -13,6 +13,7 @@ dist
 out
 dist-ssr
 coverage
+test-data
 *.local
 
 /cypress/videos/

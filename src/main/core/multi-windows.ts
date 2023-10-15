@@ -69,7 +69,7 @@ class MultiWindows {
       webPreferences: {
         contextIsolation: false, //上下文隔离
         nodeIntegration: true, //启用Node集成（是否完整的支持 node）
-        webSecurity: true,
+        webSecurity: false,
         preload
       }
     }

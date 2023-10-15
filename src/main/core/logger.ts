@@ -24,22 +24,22 @@ log.transports.file.resolvePath = () => 'logs\\' + dateStr + '.log'
 
 //  六个日志级别error, warn, info, verbose, debug, silly。默认是silly
 export default {
-  info(...param: T) {
+  info(...param: any[]) {
     log.info(param)
   },
-  warn(...param: T) {
+  warn(...param: any[]) {
     log.warn(param)
   },
-  error(...param: T) {
+  error(...param: any[]) {
     log.error(param)
   },
-  debug(...param: T) {
+  debug(...param: any[]) {
     log.debug(param)
   },
-  verbose(...param: T) {
+  verbose(...param: any[]) {
     log.verbose(param)
   },
-  silly(...param: T) {
+  silly(...param: any[]) {
     log.silly(param)
   }
 }

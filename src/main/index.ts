@@ -1,6 +1,9 @@
-import { app, BrowserWindow, dialog } from 'electron'
+import { app, BrowserWindow, dialog, net, protocol } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import MultiWindows from './core/multi-windows'
+import { initIpcMain } from './ipc/ipc-main'
+
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 // 创建主窗口
 const createAppWindow = async () => {
@@ -13,6 +16,8 @@ const createAppWindow = async () => {
     show: true,
     autoHideMenuBar: true
   })
+
+  MultiWindows.listen()
 
   mainWindow.on('close', (event) => {
     event.preventDefault()
@@ -46,6 +51,8 @@ const createAppWindow = async () => {
       // })
     }
   })
+
+  initIpcMain(mainWindow)
 }
 
 // This method will be called when Electron has finished
@@ -63,6 +70,8 @@ app.whenReady().then(() => {
   })
 
   createAppWindow()
+
+  protocol.handle('atom', (request) => net.fetch('file://' + request.url.slice('atom://'.length)))
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
