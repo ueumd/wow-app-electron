@@ -47,7 +47,7 @@ export default [
     }
   },
   {
-    url: 'sys/menu/nav',
+    url: '/api/sys/menu/nav',
     method: 'GET',
     response: ({ body }: { body: any }) => {
       return {

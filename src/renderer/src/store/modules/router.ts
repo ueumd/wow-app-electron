@@ -14,6 +14,7 @@ export const routerStore = defineStore('routerStore', {
       const routes = generateRoutes(data)
 
       this.menuRoutes.push(...routes)
+
       return this.menuRoutes
     },
     setRoutes(routers: RouteRecordRaw[]) {

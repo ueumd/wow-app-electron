@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import store from '@renderer/store'
+import { isExternalLink, pathToCamel } from '@renderer/utils/tool'
 
 NProgress.configure({ showSpinner: false })
 
@@ -59,7 +60,7 @@ const whiteList = ['/login']
 // 路由跳转前
 router.beforeEach(async (to, from, next) => {
   NProgress.start()
-  // console.log(to, from)
+  console.log(to, from)
   // token存在的情况
   if (store.userStore.token) {
     if (to.path === '/login') {

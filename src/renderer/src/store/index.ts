@@ -11,7 +11,7 @@ const store: any = {}
 
 export const registerStore = () => {
   store.userStore = userStore()
-  store.routerStore = routerStore
+  store.routerStore = routerStore()
 }
 
 export default store

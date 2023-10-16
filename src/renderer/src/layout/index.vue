@@ -46,7 +46,7 @@ const defaultActive = computed(() => {
   display: flex;
   flex-direction: column;
   .el-header {
-    background: $bg-color-app;
+    background: #eeeeee;
     padding: 0;
     padding-left: 10px;
     height: 50px;
@@ -59,7 +59,7 @@ const defaultActive = computed(() => {
     .el-aside {
       width: 120px;
       margin-right: 10px;
-      background: $bg-color-module;
+      background: blue;
       border-radius: 4px;
       box-sizing: border-box;
     }
