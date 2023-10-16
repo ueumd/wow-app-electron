@@ -3,6 +3,7 @@ import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { loadEnv } from './scripts/vite'
+import { viteMockServe } from 'vite-plugin-mock'
 
 // export default defineConfig({
 //   main: {
@@ -63,6 +64,13 @@ export default defineConfig(({ mode }) => {
               title: VITE_APP_TITLE
             }
           }
+        }),
+        viteMockServe({
+          mockPath: './mock/',
+          // localEnabled: true, //设置是否启用本地mock文件
+          // prodEnabled: true, //设置打包是否启用 mock 功能
+          watchFiles: false //设置是否监视mockPath对应的文件夹内文件中的更改
+          // logger: true, //是否在控制台显示请求日志
         })
       ],
       server: {

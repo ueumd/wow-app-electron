@@ -1,17 +1,17 @@
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
+import { userStore } from './modules/user'
+import { routerStore } from './modules/router'
+
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
-
-// export default pinia
-
-import { useUserinfo } from './userinfo'
 
 const store: any = {}
 
 export const registerStore = () => {
-  store.userinfo = useUserinfo()
+  store.userStore = userStore()
+  store.routerStore = routerStore
 }
 
 export default store
