@@ -1,23 +1,3 @@
-<template>
-  <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" @keyup.enter="onLogin">
-    <div class="login-title">登录</div>
-    <el-form-item prop="username">
-      <el-input v-model="loginForm.username" :prefix-icon="User" placeholder="帐号"></el-input>
-    </el-form-item>
-    <el-form-item prop="password">
-      <el-input
-        v-model="loginForm.password"
-        :prefix-icon="Lock"
-        show-password
-        placeholder="密码"
-      ></el-input>
-    </el-form-item>
-    <el-form-item class="login-button">
-      <el-button type="primary" @click="onLogin()">登录</el-button>
-    </el-form-item>
-  </el-form>
-</template>
-
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
@@ -46,9 +26,8 @@ const onLogin = () => {
     if (!valid) {
       return false
     }
-
     // 用户登录
-    store.userStore
+    return store.userStore
       .accountLoginAction(loginForm)
       .then(() => {
         router.push({ path: '/home' })
@@ -59,8 +38,42 @@ const onLogin = () => {
   })
 }
 </script>
-
+<template>
+  <div class="page-wrap">
+    <el-form
+      class="login-wrap"
+      ref="loginFormRef"
+      :model="loginForm"
+      :rules="loginRules"
+      @keyup.enter="onLogin"
+    >
+      <div class="login-title">登录</div>
+      <el-form-item prop="username">
+        <el-input v-model="loginForm.username" :prefix-icon="User" placeholder="帐号"></el-input>
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input
+          v-model="loginForm.password"
+          :prefix-icon="Lock"
+          show-password
+          placeholder="密码"
+        ></el-input>
+      </el-form-item>
+      <el-form-item class="login-button">
+        <el-button type="primary" @click="onLogin()">登录</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+</template>
 <style lang="scss" scoped>
+.login-wrap {
+  width: 500px;
+  padding: 20px 40px;
+  border-radius: 10px;
+  background: white;
+  box-sizing: border-box;
+  box-shadow: 0 14px 24px rgba(0, 0, 0, 0.2);
+}
 .login-title {
   display: flex;
   justify-content: center;

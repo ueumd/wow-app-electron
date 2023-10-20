@@ -10,37 +10,58 @@ const defaultActive = computed(() => {
 })
 </script>
 <template>
-  <div class="wrap">
-    <el-container>
-      <el-aside>
-        <el-menu
-          :default-active="defaultActive"
-          background-color="transparent"
-          :collapse-transition="false"
-          mode="horizontal"
-        >
-          <menu-item
-            v-for="menu in store.routerStore.menuRoutes"
-            :key="menu.path"
-            :menu="menu"
-          ></menu-item>
-        </el-menu>
-      </el-aside>
-      <el-main>
-        <router-view v-slot="{ Component, route }">
-          <template v-if="Component">
-            <keep-alive v-if="route.meta.keepAlive">
-              <component :is="Component" :key="route.path" />
-            </keep-alive>
-            <!-- 不缓存-->
-            <component :is="Component" v-else :key="route.path" />
-          </template>
-        </router-view>
-      </el-main>
-    </el-container>
-  </div>
+  <el-container class="layout-container layout-vertical">
+    <el-aside class="layout-sidebar">
+      <el-menu
+        :default-active="defaultActive"
+        :collapse="false"
+        background-color="transparent"
+        :collapse-transition="false"
+        mode="vertical"
+      >
+        <menu-item
+          v-for="menu in store.routerStore.menuRoutes"
+          :key="menu.path"
+          :menu="menu"
+        ></menu-item>
+      </el-menu>
+    </el-aside>
+    <el-main>
+      <router-view v-slot="{ Component, route }">
+        <template v-if="Component">
+          <keep-alive v-if="route.meta.keepAlive">
+            <component :is="Component" :key="route.path" />
+          </keep-alive>
+          <!-- 不缓存-->
+          <component :is="Component" v-else :key="route.path" />
+        </template>
+      </router-view>
+    </el-main>
+  </el-container>
 </template>
 <style scoped lang="scss">
+.navbar-container {
+  height: var(--theme-header-height);
+  display: flex;
+  align-items: center;
+  background: var(--theme-header-bg-color);
+  border-bottom: 1px solid var(--theme-border-color-light);
+  color: var(--theme-header-text-color);
+  ::v-deep(.svg-icon) {
+    align-items: center;
+    cursor: pointer;
+    height: var(--theme-header-height);
+    line-height: var(--theme-header-height);
+    padding: 0 12px;
+    svg {
+      color: var(--theme-header-text-color) !important;
+      font-size: 16px;
+    }
+    &:hover {
+      background: var(--theme-header-hover-color);
+    }
+  }
+}
 .wrap {
   height: 100%;
   display: flex;

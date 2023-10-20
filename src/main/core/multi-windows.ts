@@ -64,7 +64,7 @@ class MultiWindows {
       autoHideMenuBar: true,
       frame: true,
       show: true,
-      backgroundColor: '#2f3241',
+      backgroundColor: '#EFEFEF',
       modal: false,
       webPreferences: {
         contextIsolation: false, //上下文隔离
