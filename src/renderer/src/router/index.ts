@@ -138,11 +138,11 @@ export const getKeepAliveRoutes = (
 }
 
 // 加载vue组件
-const layoutModules = import.meta.glob('/src/renderer/src/views/**/*.vue')
+const layoutModules = import.meta.glob('/src/views/**/*.vue')
 
 // 根据路径，动态获取vue组件
 const getDynamicComponent = (path: string): any => {
-  return layoutModules[`/src/renderer/src/views/${path}.vue`]
+  return layoutModules[`/src/views/${path}.vue`]
 }
 
 // 根据菜单列表，生成路由数据

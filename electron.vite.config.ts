@@ -51,6 +51,7 @@ export default defineConfig(({ mode }) => {
       plugins: [externalizeDepsPlugin()]
     },
     renderer: {
+      base: './src/renderer/src',
       resolve: {
         alias: {
           '@renderer': resolve('src/renderer/src')
