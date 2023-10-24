@@ -9,33 +9,21 @@ const pageTitle = (title): string => {
  */
 const staticRoutes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    component: () => import('@renderer/views/home.vue')
-  },
-
-  {
-    path: '/:path(.*)*',
-    redirect: '/404'
-  }
-]
-
-const singleWindow: Array<RouteRecordRaw> = [
-  {
-    path: '/child-window-one',
-    component: () => import('@renderer/views/test/child-window-one.vue'),
+    path: '/test/window/child-window-one',
+    component: () => import('@/views/test/window/child-window-one.vue'),
     meta: {
-      title: pageTitle('子窗口一')
+      title: pageTitle('子窗口一'),
+      childWindow: true
     }
   },
   {
-    path: '/child-window-two',
-    component: () => import('@renderer/views/test/child-window-two.vue'),
+    path: '/test/window/child-window-two',
+    component: () => import('@/views/test/window/child-window-two.vue'),
     meta: {
-      title: pageTitle('子窗口二')
+      title: pageTitle('子窗口二'),
+      childWindow: true
     }
   }
 ]
-
-staticRoutes.push(...singleWindow)
 
 export { staticRoutes }

@@ -1,26 +1,22 @@
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue'
+import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const state = reactive({
-  parentTitle: '',
-})
 const recParentWindowMessage = () => {
-  window.ipcOn.recParentWindowMessage((res) => {
-    console.log('parent window message: ', res)
-    state.parentTitle = res.data.parentTitle
+  window.ipcApi?.recParentWindowMessage((res) => {
+    console.log(11111, res)
   })
 }
 
 const sendMsg = (title: string) => {
-  window.ipcSend.sendMsgToParentWindow({
-    title: state.parentTitle,
+  window.ipcApi?.sendMsgToParentWindow({
+    title: title,
     data: {
       title,
-      time: Date.now(),
-    },
+      id: Date.now()
+    }
   })
 }
 

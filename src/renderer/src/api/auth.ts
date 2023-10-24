@@ -1,4 +1,4 @@
-import service from '@renderer/utils/request'
+import service from '@/utils/request'
 
 export const useAccountLoginApi = (data: any) => {
   return service.post('api/sys/auth/login', data)

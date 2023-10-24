@@ -6,7 +6,8 @@
     "src/preload/**/*",
     "src/channel/**/*.ts",
     "package.json",
-    "scripts/**/*"
+    "scripts/**/*",
+    "src/types/*.d.ts"
   ],
   "compilerOptions": {
     "composite": true,

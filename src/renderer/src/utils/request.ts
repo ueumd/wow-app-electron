@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
 import qs from 'qs'
 import { ElMessage } from 'element-plus'
-import store from '@renderer/store'
-import cache from '@renderer/utils/cache'
+import store from '@/store'
+import cache from '@/utils/cache'
 import { ElMessageBox } from 'element-plus/es'
 
 // axios实例

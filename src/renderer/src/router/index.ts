@@ -1,29 +1,31 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import store from '@renderer/store'
-import { isExternalLink, pathToCamel } from '@renderer/utils/tool'
+import store from '@/store'
+import { isExternalLink, pathToCamel } from '@/utils/tool'
+
+import { staticRoutes } from './static'
 
 NProgress.configure({ showSpinner: false })
 
 const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/redirect',
-    component: () => import('@renderer/layout/index.vue'),
+    component: () => import('@/layout/index.vue'),
     children: [
       {
         path: '/redirect/:path(.*)',
-        component: () => import('@renderer/layout/components/Router/Redirect.vue')
+        component: () => import('@/layout/components/Router/Redirect.vue')
       }
     ]
   },
   {
     path: '/login',
-    component: () => import('@renderer/views/login/index.vue')
+    component: () => import('@/views/login/index.vue')
   },
   {
     path: '/404',
-    component: () => import('@renderer/views/404.vue')
+    component: () => import('@/views/404.vue')
   }
 ]
 
@@ -34,13 +36,13 @@ export const errorRoute: RouteRecordRaw = {
 
 const asyncRoutes: RouteRecordRaw = {
   path: '/',
-  component: () => import('@renderer/layout/index.vue'),
+  component: () => import('@/layout/index.vue'),
   redirect: '/home',
   children: [
     {
       path: '/home',
       name: 'Home',
-      component: () => import('@renderer/views/home.vue'),
+      component: () => import('@/views/home.vue'),
       meta: {
         title: 'HOme',
         affix: true
@@ -51,7 +53,7 @@ const asyncRoutes: RouteRecordRaw = {
 
 export const router = createRouter({
   history: createWebHashHistory(),
-  routes: constantRoutes
+  routes: [...constantRoutes, ...staticRoutes]
 })
 
 // 白名单列表
@@ -60,7 +62,7 @@ const whiteList = ['/login']
 // 路由跳转前
 router.beforeEach(async (to, from, next) => {
   NProgress.start()
-  console.log(to, from)
+  console.log(from.path, to.path)
   // token存在的情况
   if (store.userStore.token) {
     if (to.path === '/login') {
@@ -153,15 +155,15 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
     let component
     let path
     if (menu.children && menu.children.length > 0) {
-      component = () => import('@renderer/layout/index.vue')
+      component = () => import('@/layout/index.vue')
       path = '/p/' + menu.id
     } else {
       // 判断是否iframe
       if (isIframeUrl(menu)) {
-        component = () => import('@renderer/layout/components/Router/Iframe.vue')
+        component = () => import('@/layout/components/Router/Iframe.vue')
         path = '/iframe/' + menu.id
       } else if (menu.url.indexOf('online/form/') != -1) {
-        // component = () => import('@renderer/views/online/form/index.vue')
+        // component = () => import('@/views/online/form/index.vue')
         // path = '/' + menu.url
       } else {
         component = getDynamicComponent(menu.url)
@@ -174,6 +176,7 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
       component: component,
       children: [],
       meta: {
+        show: menu.show,
         title: menu.name,
         icon: menu.icon,
         id: '' + menu.id,

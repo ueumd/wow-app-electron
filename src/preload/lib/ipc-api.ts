@@ -30,4 +30,44 @@ export class IpcApi {
       callback(data)
     })
   }
+
+  // 接收父窗口消息
+  recParentWindowMessage(callback: (T) => void) {
+    electronAPI.ipcRenderer.on(channel.REC_PARENT_WINDOW_MESSAGE, (_, data) => {
+      callback(data)
+    })
+  }
+
+  // 接收子窗口消息
+  recChildWindowMessage(callback: (T) => void) {
+    electronAPI.ipcRenderer.on(channel.REC_CHILD_WINDOW_MESSAGE, (_, data) => {
+      callback(data)
+    })
+  }
+
+  recCloseLiveWin() {
+    electronAPI.ipcRenderer.on('closeLiveWin', (_) => {
+      window.sessionStorage.removeItem('isOpenLiveWindow')
+      console.log('-------closeLiveWin-')
+    })
+  }
+
+  /**
+   * 向子窗口发送消息
+   * @param title 目标窗口标题
+   * @param data 发送信息
+   */
+  sendMsgToChildWindow({ title, data }: IRenderToRenderMsg) {
+    electronAPI.ipcRenderer.send(channel.SEND_MESSAGE_TO_CHILD_WINDOW, { title, data })
+  }
+
+  /**
+   * 向父窗口发送消息
+   * @param id 目标窗口ID
+   * @param title 目标窗口标题
+   * @param data 发送信息
+   */
+  sendMsgToParentWindow({ title, data }: IRenderToRenderMsg) {
+    electronAPI.ipcRenderer.send(channel.SEND_MESSAGE_TO_PARENT_WINDOW, { title, data })
+  }
 }

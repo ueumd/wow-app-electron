@@ -1,5 +1,7 @@
 import { ElForm } from 'element-plus'
 import { useTitle } from '@vueuse/core'
+import { router } from '@/router'
+import { nextTick } from 'vue'
 
 /**
  * 加载网络css文件
@@ -141,4 +143,16 @@ export function to<T, U = Error>(
 
       return [err, undefined]
     })
+}
+
+/**
+ * 根据路由 meta.title 设置浏览器标题
+ */
+export function setWindowTitle() {
+  if (router.currentRoute.value.meta.childWindow) {
+    nextTick(() => {
+      const title = useTitle()
+      title.value = router.currentRoute.value.meta.title as string
+    })
+  }
 }

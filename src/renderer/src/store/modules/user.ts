@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { useAccountLoginApi, useLogoutApi } from '@renderer/api/auth'
-import cache from '@renderer/utils/cache'
-import { useUserInfoApi } from '@renderer/api/sys/user'
+import { useAccountLoginApi, useLogoutApi } from '@/api/auth'
+import cache from '@/utils/cache'
+import { useUserInfoApi } from '@/api/sys/user'
 
 export const userStore = defineStore('userStore', {
   state() {
@@ -13,9 +13,9 @@ export const userStore = defineStore('userStore', {
         avatar: ''
       },
       // 访问token
-      token: '',
+      token: cache.getToken(),
       // 刷新token
-      refreshToken: ''
+      refreshToken: cache.getRefreshToken()
     }
   },
   actions: {

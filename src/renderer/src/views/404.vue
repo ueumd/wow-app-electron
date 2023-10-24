@@ -1,6 +1,6 @@
 <template>
   <div class="layout-error">
-    <img src="@renderer/assets/404.png" alt="404" />
+    <img src="@/assets/404.png" alt="404" />
     <div>
       <el-button type="primary" @click="onBack">onBack</el-button>
       <el-button type="success" @click="onToHome">onToHome</el-button>

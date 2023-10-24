@@ -1,4 +1,4 @@
-import { ipcMain, shell } from 'electron'
+import { BrowserWindow, ipcMain, shell } from 'electron'
 import logger from '../core/logger'
 import channel from '../../channel'
 
@@ -27,5 +27,37 @@ export function initIpcMain(primaryWindow) {
 
   ipcMain.on(channel.INTER_RENDERER_MESSAGE, (_, payload) => {
     primaryWindow.webContents.send(channel.INTER_RENDERER_MESSAGE, payload)
+  })
+
+  // 渲染进程与渲染进程通信（父窗口-子窗口）
+  ipcMain.on(channel.SEND_MESSAGE_TO_CHILD_WINDOW, (_, payload: IRenderToRenderMsg) => {
+    const allWindows = BrowserWindow.getAllWindows()
+    //const targetId = 2;
+    const targetWindow = allWindows.find((w: any) => {
+      if (payload.title && w.getTitle() === payload.title) {
+        return w
+      }
+    })
+    if (targetWindow) {
+      targetWindow.webContents.send('rec-parent-window-message', payload)
+    } else {
+      console.error('窗口不存在', payload)
+    }
+  })
+
+  // 渲染进程与渲染进程通信（子窗口-父窗口）
+  ipcMain.on(channel.SEND_MESSAGE_TO_PARENT_WINDOW, (_, payload: IRenderToRenderMsg) => {
+    const allWindows = BrowserWindow.getAllWindows()
+    const targetWindow = allWindows.find((w: any) => {
+      if (payload.title && w.getTitle() === payload.title) {
+        return w
+      }
+    })
+
+    if (targetWindow) {
+      targetWindow.webContents.send('rec-child-window-message', payload)
+    } else {
+      console.error('窗口不存在')
+    }
   })
 }

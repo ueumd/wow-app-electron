@@ -17,6 +17,8 @@ const createAppWindow = async () => {
     autoHideMenuBar: true
   })
 
+  initIpcMain(mainWindow)
+
   MultiWindows.listen()
 
   mainWindow.on('close', (event) => {
@@ -51,8 +53,6 @@ const createAppWindow = async () => {
       // })
     }
   })
-
-  initIpcMain(mainWindow)
 }
 
 // This method will be called when Electron has finished

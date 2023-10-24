@@ -1,5 +1,5 @@
 import { createI18n } from 'vue-i18n'
-import cache from '@renderer/utils/cache'
+import cache from '@/utils/cache'
 
 // element-plus 国际化文件
 import element_zh_cn from 'element-plus/es/locale/lang/zh-cn'

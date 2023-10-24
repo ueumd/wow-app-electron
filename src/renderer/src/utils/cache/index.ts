@@ -1,5 +1,5 @@
-import { Storage } from '@renderer/utils/storage'
-import CacheKey from '@renderer/utils/cache/key'
+import { Storage } from '@/utils/storage'
+import CacheKey from '@/utils/cache/key'
 
 // 缓存
 class Cache {

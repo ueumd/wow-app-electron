@@ -2,7 +2,7 @@
 import MenuItem from './components/MenuItem.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import store from '@renderer/store'
+import store from '@/store'
 const route = useRoute()
 const defaultActive = computed(() => {
   const { path } = route

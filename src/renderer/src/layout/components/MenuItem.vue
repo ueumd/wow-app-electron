@@ -15,8 +15,8 @@
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
 import { useRouter } from 'vue-router'
-import store from '@renderer/store'
-import { isExternalLink, replaceLinkParam } from '@renderer/utils/tool'
+import store from '@/store'
+import { isExternalLink, replaceLinkParam } from '@/utils/tool'
 
 // 显示icon图标
 const showIcon = computed(() => {

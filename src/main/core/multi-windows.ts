@@ -3,6 +3,7 @@ import path, { join } from 'path'
 import { IWindowGroup, IWindowsConfig } from '../../types/electron-env'
 import type { EelectronWindowType } from '../../types/electron-env'
 import { isDev } from './utils'
+import channel from '../../channel'
 
 const preload = join(__dirname, '../preload/index.js')
 
@@ -94,16 +95,23 @@ class MultiWindows {
     let winUrl = INDEX_HTML_PATH
     if (isDev) {
       // electron-vite-vue#298
-      winUrl = args.pageRoute
-        ? `${ELECTRON_RENDERER_URL}#${args.pageRoute}?winId=${winId}`
+      winUrl = args.route
+        ? `${ELECTRON_RENDERER_URL}#${args.route}?winId=${winId}`
         : ELECTRON_RENDERER_URL
     } else {
-      winUrl = args.pageRoute
-        ? `${INDEX_HTML_PATH}#${args.pageRoute}?winId=${winId}`
-        : `${INDEX_HTML_PATH}`
+      winUrl = args.route ? `${INDEX_HTML_PATH}#${args.route}?winId=${winId}` : `${INDEX_HTML_PATH}`
     }
-
     return winUrl
+  }
+
+  hasWindow(payload) {
+    const allWindows = BrowserWindow.getAllWindows()
+    //const targetId = 2;
+    return allWindows.find((w: any) => {
+      if (payload.title && w.getTitle() === payload.title) {
+        return w
+      }
+    })
   }
 
   /**
@@ -116,6 +124,7 @@ class MultiWindows {
     // 是否主窗口
     if (Object.keys(this.primaryWindow).length) {
       console.log('主窗口存在')
+      this.primaryWindow.focus()
       return this.primaryWindow
     }
 
@@ -123,6 +132,8 @@ class MultiWindows {
 
     // 创建窗口对象
     this.primaryWindow = new BrowserWindow(windowOpt) as EelectronWindowType
+
+    if (args.title) this.primaryWindow.setTitle(args.title)
 
     if (isDev) {
       this.primaryWindow.setMaximizable(windowOpt.maximizable)
@@ -148,7 +159,7 @@ class MultiWindows {
     if (isDev) {
       await this.primaryWindow.loadURL(winUrl)
     } else {
-      await this.primaryWindow.loadFile(winUrl)
+      await this.primaryWindow.loadURL(winUrl)
     }
 
     return this.primaryWindow
@@ -159,10 +170,19 @@ class MultiWindows {
    * @param args
    */
   async createChildWindow(args: IWindowsConfig) {
+    const win = this.hasWindow(args)
+    if (win) {
+      console.log(args.title + ' 主窗口存在')
+      win.focus()
+      return this.primaryWindow
+    }
+
     const windowOpt = this.getUserConfig(args)
 
     // 创建窗口对象
     const childWindow = new BrowserWindow(windowOpt) as EelectronWindowType
+
+    if (args.title) childWindow.setTitle(args.title)
 
     if (isDev) {
       childWindow.setMaximizable(windowOpt.maximizable)
@@ -181,7 +201,7 @@ class MultiWindows {
     if (isDev) {
       await childWindow.loadURL(winUrl)
     } else {
-      await childWindow.loadFile(winUrl)
+      await childWindow.loadURL(winUrl)
     }
 
     return childWindow
@@ -338,6 +358,10 @@ class MultiWindows {
       if (win) {
         win.close()
       }
+    })
+
+    ipcMain.handle(channel.CREATE_CHILD_WINDOW, (_, payload) => {
+      this.createChildWindow(payload)
     })
   }
 }

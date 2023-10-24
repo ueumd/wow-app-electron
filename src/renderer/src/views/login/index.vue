@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
-import store from '@renderer/store'
+import store from '@/store'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
-import constant from '@renderer/utils/constant'
+import constant from '@/utils/constant'
 const { t } = useI18n()
 
 const router = useRouter()

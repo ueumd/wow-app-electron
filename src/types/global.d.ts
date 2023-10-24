@@ -16,6 +16,11 @@ declare global {
 
   type IpcMessageType<T = any> = IpcMessage<T>
 
+  interface IRenderToRenderMsg {
+    title: string
+    data?: any
+  }
+
   interface ApiResponse<T = any> {
     code: number
     data: T

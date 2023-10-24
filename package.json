@@ -14,6 +14,7 @@
     "typecheck:web": "vue-tsc --noEmit -p tsconfig.json --composite false",
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
     "start": "electron-vite preview",
+    "web": "chcp 65001 && vite",
     "dev": "chcp 65001 && electron-vite dev  --watch",
     "build": "electron-vite build",
     "postinstall": "electron-builder install-app-deps",
@@ -24,6 +25,7 @@
   "dependencies": {
     "@electron-toolkit/preload": "^2.0.0",
     "@electron-toolkit/utils": "^2.0.0",
+    "@vueuse/electron": "^10.5.0",
     "axios": "^1.5.1",
     "element-plus": "^2.3.14",
     "mitt": "^3.0.1",

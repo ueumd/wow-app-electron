@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { RouteLocationNormalizedLoaded, useRoute } from 'vue-router'
-import { replaceLinkParam } from '@renderer/utils/tool'
+import { replaceLinkParam } from '@/utils/tool'
 
 const route = useRoute()
 const url = ref('')

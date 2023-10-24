@@ -34,7 +34,7 @@ export interface IWindowsConfig {
   isPrimaryWindow?: boolean // 是否是主窗口（唯一）
   isMultiWindow?: boolean // 是否支持多开窗口
 
-  pageRoute?: string | null // 页面路由
+  route?: string | null // 页面路由
 }
 
 // 窗口组

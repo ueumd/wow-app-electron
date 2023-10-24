@@ -1,34 +1,13 @@
 import { resolve } from 'path'
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
+import { bytecodePlugin, defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { loadEnv } from './scripts/vite'
 import { viteMockServe } from 'vite-plugin-mock'
-
-// export default defineConfig({
-//   main: {
-//     plugins: [externalizeDepsPlugin()]
-//   },
-//   preload: {
-//     plugins: [externalizeDepsPlugin()]
-//   },
-//   renderer: {
-//     resolve: {
-//       alias: {
-//         '@renderer': resolve('src/renderer/src')
-//       }
-//     },
-//     plugins: [vue()],
-//     server: {
-//       host: true,
-//       port: 3000, // 端口号
-//       open: false // 是否自动打开浏览器
-//     }
-//   }
-// })
+import * as pkg from './package.json'
 
 export default defineConfig(({ mode }) => {
-  const { VITE_OPEN, VITE_PORT, VITE_APP_TITLE, VITE_PROXY_URL } = loadEnv(mode)
+  const { VITE_OPEN, VITE_PORT, VITE_PROXY_URL } = loadEnv(mode)
 
   // const isServe = command === 'serve'
   // const isBuild = command === 'build'
@@ -45,16 +24,16 @@ export default defineConfig(({ mode }) => {
   }
   return {
     main: {
-      plugins: [externalizeDepsPlugin()]
+      plugins: [externalizeDepsPlugin(), bytecodePlugin()]
     },
     preload: {
-      plugins: [externalizeDepsPlugin()]
+      plugins: [externalizeDepsPlugin(), bytecodePlugin()]
     },
     renderer: {
-      base: './src/renderer/src',
+      base: '/src/renderer/src',
       resolve: {
         alias: {
-          '@renderer': resolve('src/renderer/src')
+          '@': resolve('./src/renderer/src')
         }
       },
       plugins: [
@@ -62,7 +41,7 @@ export default defineConfig(({ mode }) => {
         createHtmlPlugin({
           inject: {
             data: {
-              title: VITE_APP_TITLE
+              title: pkg.title
             }
           }
         }),
