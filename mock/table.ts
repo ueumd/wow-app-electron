@@ -31,7 +31,7 @@ const getTableListData = (params: any) => {
 			time: `@time('HH:mm')`,
 			'proportion|1-100': 10,
 			'no|100000-10000000': 100000,
-			status: params.status != '' ? Number(params.status) : Math.random() > 0.5 ? 1 : 0, // 0或1
+			status: params.status != '' ? params.status : Math.random() > 0.5,
 			hobbys: getHobbysList(Math.floor(Math.random() * 9))
 		})
 	}

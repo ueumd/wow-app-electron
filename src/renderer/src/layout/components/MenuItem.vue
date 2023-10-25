@@ -24,7 +24,6 @@ import { isExternalLink, replaceLinkParam } from '@/utils/tool'
 const showIcon = computed(() => {
 	return store.appStore.theme.layout !== 'columns'
 })
-console.log(showIcon)
 
 defineProps({
 	menu: {

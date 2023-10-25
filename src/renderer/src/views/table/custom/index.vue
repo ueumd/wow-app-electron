@@ -193,12 +193,16 @@ const rowDrop = () => {
 	})
 }
 
-const selectedTableBoxRef = ref<InstanceType<typeof HTMLDivElement>>()
+const getStatus = item => {
+	console.log(item.id)
+}
 
 // 滚动到底部
 const toBottom = () => {
+	const dom = selectedTable.value?.$el.querySelector('.el-scrollbar__wrap')
 	nextTick(() => {
-		selectedTableBoxRef.value?.scrollTo({ top: selectedTableBoxRef.value?.scrollHeight, behavior: 'smooth' })
+		// selectedTable.value?.setScrollTop(dom.scrollHeight)
+		dom.scrollTo({ top: dom.scrollHeight, behavior: 'smooth' })
 	})
 }
 
@@ -250,7 +254,11 @@ onMounted(() => {
 				<el-table-column label="姓名" prop="name" width="100" />
 				<el-table-column label="地址" prop="address" align="left" show-overflow-tooltip />
 				<el-table-column label="创建时间" prop="createTime" width="160" align="center" sortable="custom" :sort-orders="['descending', 'ascending']" />
-				<el-table-column label="状态" prop="status" align="center" width="100" />
+				<el-table-column label="状态" align="center" width="100">
+					<template #default="scope">
+						<el-switch v-model="scope.row.status" @change="getStatus(scope.row)" inline-prompt active-text="开启" inactive-text="禁用" />
+					</template>
+				</el-table-column>
 				<el-table-column align="center" label="操作" width="160">
 					<template #default="scope">
 						<el-button size="small" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
@@ -270,18 +278,23 @@ onMounted(() => {
 			/>
 		</el-col>
 		<el-col :span="8">
-			<div class="selectedTable" ref="selectedTableBoxRef">
-				<el-table ref="selectedTable" :data="state.list" stripe :default-sort="{ prop: 'createTime', order: 'descending' }">
-					<el-table-column label="序号" type="index" width="60" align="center" />
-					<el-table-column label="姓名" prop="name" />
-					<el-table-column label="状态" prop="status" align="center" width="100" />
-					<el-table-column align="center" label="操作" width="90">
-						<template #default="scope">
-							<el-button size="small" type="danger" @click="handleDeleteBySelected(scope.row)">删除</el-button>
-						</template>
-					</el-table-column>
-				</el-table>
-			</div>
+			<el-table
+				ref="selectedTable"
+				:data="state.list"
+				stripe
+				:default-sort="{ prop: 'createTime', order: 'descending' }"
+				class="selectedTable"
+				scrollbar-always-on
+			>
+				<el-table-column fixed label="序号" type="index" width="60" align="center" />
+				<el-table-column label="姓名" prop="name" />
+				<el-table-column label="创建时间" prop="createTime" align="center" width="160" />
+				<el-table-column align="center" label="操作" width="90">
+					<template #default="scope">
+						<el-button size="small" type="danger" @click="handleDeleteBySelected(scope.row)">删除</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
 		</el-col>
 	</el-row>
 
@@ -292,9 +305,8 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .selectedTable {
-	height: calc(100vh - 120px);
-	overflow-y: auto;
 	background: white;
-	border: 1px solid #dddddd;
+	overflow-y: scroll;
+	height: calc(100vh - 120px);
 }
 </style>
