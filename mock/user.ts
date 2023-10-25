@@ -62,8 +62,8 @@ export default [
 								id: 101,
 								pid: 100,
 								children: [],
-								name: '窗口管理',
-								url: 'test/window/index',
+								name: '父子窗口',
+								url: 'window/base/index',
 								type: 0,
 								openStyle: 0,
 								icon: 'icon-solution',
@@ -72,7 +72,7 @@ export default [
 								createTime: '2023-08-10 00:02:04'
 							}
 						],
-						name: '测试',
+						name: '窗口管理',
 						url: '',
 						type: 0,
 						openStyle: 0,
