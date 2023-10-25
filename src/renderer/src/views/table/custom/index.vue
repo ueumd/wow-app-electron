@@ -12,7 +12,7 @@ import Edit from '@/views/table/custom/components/edit.vue'
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const selectedTable = ref<InstanceType<typeof ElTable>>()
 
-const centerDialogVisible = ref(false)
+const editRef = ref(null)
 
 const query = reactive({
 	id: '',
@@ -24,8 +24,7 @@ const query = reactive({
 
 const state = reactive({
 	selectedList: [],
-	list: [] as Array<any>,
-	itemData: null as any
+	list: [] as Array<any>
 })
 
 // useTable
@@ -86,21 +85,23 @@ const batchDelete = () => {
 
 // 编辑
 const handleEdit = item => {
-	centerDialogVisible.value = true
-	state.itemData = item
-	console.log(item)
+	editRef.value?.show(item)
 }
 
 // 添加
 const onAdd = () => {
-	centerDialogVisible.value = true
-	state.itemData = {}
+	editRef.value?.show()
 	testStore()
 }
 
 const close = () => {
-	centerDialogVisible.value = false
-	state.itemData = null
+	console.log('close')
+}
+
+const confirm = val => {
+	console.log(val)
+	editRef.value?.close()
+	getTableData()
 }
 
 /**
@@ -166,12 +167,6 @@ const checkTableDataSelected = () => {
 			})
 		})
 	}
-}
-
-const confirm = val => {
-	console.log(val)
-	getTableData()
-	close()
 }
 
 // 行拖拽排序
@@ -285,9 +280,7 @@ onMounted(() => {
 		</el-col>
 	</el-row>
 
-	<el-dialog v-model="centerDialogVisible" :title="state.itemData?.name || '添加'" width="30%" destroy-on-close center draggable @close="close">
-		<Edit @confirm="confirm" :item-data="state.itemData" />
-	</el-dialog>
+	<Edit ref="editRef" @confirm="confirm" @close="close" />
 </template>
 
 <style scoped lang="scss">
