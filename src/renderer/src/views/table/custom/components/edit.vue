@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
+
+import type { FormInstance, FormRules } from 'element-plus'
 import _ from 'lodash'
 
 const props = defineProps({
@@ -15,10 +17,10 @@ const emits = defineEmits(['confirm'])
 
 const loading = ref(false)
 
-const form = ref({})
-const formRef = ref(null)
+const form = ref({}) as any
+const formRef = ref<FormInstance>()
 
-const rules = reactive({
+const rules = reactive<FormRules>({
 	name: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
 	amount: [{ required: true, message: '请输入金额', trigger: 'blur' }]
 })

@@ -79,7 +79,7 @@ const batchDelete = () => {
 		cancelButtonText: '取消',
 		type: 'warning'
 	}).then(() => {
-		const ids = state.selectedList.map(it => it.id)
+		const ids = state.selectedList.map((it: any) => it.id)
 		console.log(ids)
 	})
 }
@@ -178,7 +178,7 @@ const confirm = val => {
 const rowDrop = () => {
 	const tbody = selectedTable.value?.$el.querySelector('.el-table__body-wrapper tbody')
 	Sortable.create(tbody, {
-		onEnd(evt) {
+		onEnd(evt: any) {
 			// console.log(evt.newIndex, evt.oldIndex)
 			const copyList = _.cloneDeep(state.list)
 			const targetRow = copyList.splice(evt.oldIndex, 1)[0]
@@ -193,7 +193,7 @@ const rowDrop = () => {
 	})
 }
 
-const selectedTableBoxRef = ref(null)
+const selectedTableBoxRef = ref<InstanceType<typeof HTMLDivElement>>()
 
 // 滚动到底部
 const toBottom = () => {
