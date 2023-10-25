@@ -12,12 +12,31 @@ import Edit from '@/views/table/custom/components/edit.vue'
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const selectedTable = ref<InstanceType<typeof ElTable>>()
 
+const status = [
+	{
+		value: true,
+		label: '启用'
+	},
+	{
+		value: false,
+		label: '未知',
+		disabled: true
+	},
+	{
+		value: false,
+		label: '禁用'
+	}
+]
+
 const centerDialogVisible = ref(false)
 
 const query = reactive({
 	id: '',
 	limit: 10,
 	name: '',
+	year: '',
+	time: '',
+	status: '',
 	page: 1,
 	asc: false
 })
@@ -40,6 +59,13 @@ const { loading, tableData, getTableData, pagination } = useTable<any>(_ => getT
  */
 const sortChange = ({ order }) => {
 	query.asc = order === 'ascending'
+	getTableData()
+}
+
+const getYear = () => {
+	getTableData()
+}
+const getTimes = () => {
 	getTableData()
 }
 
@@ -216,11 +242,38 @@ onMounted(() => {
 
 <template>
 	<el-row class="mb-1">
-		<el-col :span="12">
+		<el-col :span="4">
 			<el-button type="primary" @click="onAdd()">添加</el-button>
 			<el-button type="danger" @click="batchDelete()">删除</el-button>
 		</el-col>
-		<el-col :span="12" align="right">
+		<el-col :span="20" align="right" class="rowEC">
+			<el-select v-model="query.status" placeholder="状态" @change="getTimes" clearable style="width: 100px" class="mr-1">
+				<el-option v-for="item in status" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled" />
+			</el-select>
+			<div class="mr-1">
+				<el-date-picker
+					style="width: 340px"
+					v-model="query.time"
+					type="datetimerange"
+					start-placeholder="开如时间"
+					end-placeholder="结束时间"
+					format="YYYY-MM-DD HH:mm:ss"
+					value-format="YYYY-MM-DD HH:mm:ss"
+					date-format="YYYY/MM/DD ddd"
+					time-format="A hh:mm:ss"
+					@change="getTimes"
+				/>
+			</div>
+			<el-date-picker
+				v-model="query.year"
+				clearable
+				type="year"
+				value-format="YYYY"
+				placeholder="年份"
+				style="width: 100px"
+				@change="getYear"
+				class="mr-1"
+			/>
 			<el-input v-model.trim="query.name" clearable placeholder="搜索名称" style="width: 200px" class="mr-1" @change="getTableData"></el-input>
 			<el-button type="primary" class="darkBtn" @click="handleSearch">搜索</el-button>
 		</el-col>
