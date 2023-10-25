@@ -4,6 +4,8 @@ import vue from '@vitejs/plugin-vue'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { loadEnv } from './scripts/vite'
 import { viteMockServe } from 'vite-plugin-mock'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 import * as pkg from './package.json'
 // import AutoImport from 'unplugin-auto-import/vite'
 
@@ -44,6 +46,11 @@ export default defineConfig(({ command, mode }) => {
 				// 	imports: ['vue', 'vue-router'],
 				// 	dts: 'auto-import.d.ts'
 				// }),
+				vueSetupExtend(),
+				createSvgIconsPlugin({
+					iconDirs: [resolve(__dirname, '/src/renderer/src/icons/svg')],
+					symbolId: 'icon-[dir]-[name]'
+				}),
 				createHtmlPlugin({
 					inject: {
 						data: {

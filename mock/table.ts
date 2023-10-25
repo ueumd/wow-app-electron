@@ -53,5 +53,18 @@ export default [
 				list: list
 			})
 		}
+	},
+	{
+		url: '/api/table/person/list/save',
+		method: 'POST',
+		response: ({ body }) => {
+			return {
+				code: 0,
+				msg: 'success',
+				data: {
+					...body
+				}
+			}
+		}
 	}
 ] as MockMethod[]
