@@ -19,5 +19,6 @@ config
 index.html
 components.d.ts
 element.d.ts
-src/renderer/assets
+src/renderer/src/assets
+src/renderer/src/icons
 logs
