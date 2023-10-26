@@ -51,39 +51,21 @@ export class IpcApi {
 	}
 
 	/**
-	 * 父窗口 向 子窗口发送消息
-	 * @param title 子窗口标题
-	 * @param data 发送信息
+	 * 根据标题向目标窗口发送消息
+	 * @param title
+	 * @param data
 	 */
-	sendMessageToChildWindow({ title, data }: IRenderToRenderMsg) {
-		electronAPI.ipcRenderer.send(channel.INTER_RENDERER_MESSAGE_TO_CHILD_WINDOW, { title, data })
+	sendMessageByWinTitle({ title, data }: IRenderToRenderMsg) {
+		electronAPI.ipcRenderer.send(channel.RENDERER_TO_RENDERER, { title, data })
 	}
 
 	/**
-	 * 子窗口 接收 父窗口 消息
+	 * 目标窗口收接消息
 	 * @param callback
 	 */
-	onRecParentWindowMessage(callback: (T) => void) {
-		electronAPI.ipcRenderer.on(channel.INTER_RENDERER_MESSAGE_TO_CHILD_WINDOW, (_, data) => {
-			callback(data)
-		})
-	}
-
-	/**
-	 * 子窗口 向 父窗口发送消息
-	 * @param title 父窗口标题
-	 * @param data 发送信息
-	 */
-	sendMessageToParentWindow({ title, data }: IRenderToRenderMsg) {
-		electronAPI.ipcRenderer.send(channel.INTER_RENDERER_MESSAGE_TO_PARENT_WINDOW, { title, data })
-	}
-
-	/**
-	 * 父窗口 接收 子窗口 消息
-	 * @param callback
-	 */
-	onRecChildWindowMessage(callback: (T) => void) {
-		electronAPI.ipcRenderer.on(channel.INTER_RENDERER_MESSAGE_TO_PARENT_WINDOW, (_, data) => {
+	onRecMessageByWinTitle(callback: (T) => void) {
+		electronAPI.ipcRenderer.removeAllListeners(channel.RENDERER_TO_RENDERER)
+		electronAPI.ipcRenderer.on(channel.RENDERER_TO_RENDERER, (_, data) => {
 			callback(data)
 		})
 	}

@@ -47,7 +47,7 @@ const closeWin = title => {
 }
 
 const sendMsgByTitle = title => {
-	window.ipcApi?.sendMessageToChildWindow({
+	window.ipcApi?.sendMessageByWinTitle({
 		title: title,
 		data: {
 			message: '父窗口消息'
@@ -58,7 +58,7 @@ const sendMsgByTitle = title => {
 onMounted(() => {
 	test()
 
-	window.ipcApi?.onRecChildWindowMessage(res => {
+	window.ipcApi?.onRecMessageByWinTitle(res => {
 		console.log('child window msg: ', res)
 	})
 })
