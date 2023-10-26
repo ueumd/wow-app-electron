@@ -2,6 +2,8 @@ import { app, BrowserWindow, dialog, net, protocol } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import MultiWindows from './core/multi-windows'
 import { initIpcMain } from './ipc/ipc-main'
+import { isDev } from './core/utils'
+import * as updater from './core/updater'
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
@@ -56,6 +58,21 @@ const createAppWindow = async () => {
 			// })
 		}
 	})
+
+	// 执行自动更新
+	if (isDev) {
+		Object.defineProperty(app, 'isPackaged', {
+			get() {
+				return true
+			}
+		})
+		setTimeout(() => {
+			// updater.updateNotAva(mainWindow)
+			// updater.updateAppClient(mainWindow)
+		}, 1000)
+	} else {
+		updater.updateAppClient(mainWindow)
+	}
 }
 
 // This method will be called when Electron has finished

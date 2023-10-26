@@ -6,8 +6,8 @@ const test = () => {
 }
 
 const writeLog = () => {
-	window.ipcApi.log('info', 'Hello Logger!')
-	window.ipcApi.log('error', 'Hello Logger!')
+	window.ipcApi.logger('info', 'Hello Logger!')
+	window.ipcApi.logger('error', 'Hello Logger!')
 }
 
 const openWin = (url, title) => {
