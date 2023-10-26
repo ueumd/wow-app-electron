@@ -25,8 +25,8 @@ export function initIpcMain(primaryWindow) {
 		shell.openExternal(params)
 	})
 
-	ipcMain.on(channel.INTER_RENDERER_MESSAGE, (_, payload) => {
-		primaryWindow.webContents.send(channel.INTER_RENDERER_MESSAGE, payload)
+	ipcMain.on(channel.MAIN_RENDERER_MESSAGE, (_, payload) => {
+		primaryWindow.webContents.send(channel.MAIN_RENDERER_MESSAGE, payload)
 	})
 
 	// 渲染进程与渲染进程通信（父窗口向子窗口发送信息）

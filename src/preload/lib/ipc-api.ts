@@ -15,19 +15,19 @@ export class IpcApi {
 	}
 
 	/**
-	 * send message renderer to renderer
+	 * main - renderer
 	 * @param payload
 	 */
 	send(payload) {
-		electronAPI.ipcRenderer.send(channel.INTER_RENDERER_MESSAGE, payload)
+		electronAPI.ipcRenderer.send(channel.MAIN_RENDERER_MESSAGE, payload)
 	}
 
 	/**
-	 * receive message renderer to renderer
-	 * @param payload
+	 * main - renderer
+	 * @param callback
 	 */
 	on(callback) {
-		electronAPI.ipcRenderer.on(channel.INTER_RENDERER_MESSAGE, (_, data) => {
+		electronAPI.ipcRenderer.on(channel.MAIN_RENDERER_MESSAGE, (_, data) => {
 			callback(data)
 		})
 	}
