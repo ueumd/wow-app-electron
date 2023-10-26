@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+	<router-view />
 </template>
 
 <script setup lang="ts">
@@ -8,9 +8,9 @@ import { setWindowTitle } from '@/utils/common'
 import { watch } from 'vue'
 const route = useRoute()
 watch(
-  () => route.path,
-  () => {
-    setWindowTitle()
-  }
+	() => route.path,
+	() => {
+		// setWindowTitle()
+	}
 )
 </script>

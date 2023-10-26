@@ -1,39 +1,37 @@
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue'
+import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const state = reactive({
-  parentTitle: ''
-})
 const recParentWindowMessage = () => {
-  window.ipcApi.recParentWindowMessage((res) => {
-    console.log('parent window message: ', res)
-    state.parentTitle = res.data.parentTitle
-  })
+	console.log('recParentWindowMessage')
+	window.ipcApi?.onRecParentWindowMessage(res => {
+		console.log('parent window msg: ', res)
+	})
 }
 
 const sendMsg = (title: string) => {
-  window.ipcApi.sendMsgToParentWindow({
-    title: state.parentTitle,
-    data: {
-      title,
-      time: Date.now()
-    }
-  })
+	window.ipcApi?.sendMessageToParentWindow({
+		title: title,
+		data: {
+			message: '子窗口消息',
+			childWinId: route.query.winId
+		}
+	})
 }
 
 onMounted(() => {
-  console.log('current window id: ', route.query.winId)
-  recParentWindowMessage()
+	console.log('current window id: ', route.query.winId)
+	recParentWindowMessage()
 })
 </script>
 
 <template>
-  <el-row class="mg">
-    <el-button type="success" @click="sendMsg('子窗口二')">send msg</el-button>
-  </el-row>
+	<el-row class="mg">
+		<el-button type="success" @click="sendMsg('哇塞')">send msg</el-button>
+		<el-button type="success" @click="sendMsg('哇塞')">send msg</el-button>
+	</el-row>
 </template>
 
 <style scoped lang="scss"></style>
