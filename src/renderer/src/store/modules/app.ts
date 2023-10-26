@@ -4,6 +4,7 @@ import cache from '@/utils/cache'
 
 export const appStore = defineStore('appStore', {
 	state: () => ({
+		title: '哇塞',
 		// sidebar 是否展开
 		sidebarOpened: cache.getSidebarOpened(),
 		// 国际化

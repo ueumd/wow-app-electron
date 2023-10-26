@@ -16,6 +16,9 @@ export default defineConfig(({ command, mode }) => {
 	// const isBuild = command === 'build'
 	// const sourcemap = isServe || !!process.env.VSCODE_DEBUG
 
+	console.log('------------process.cwd()', process.cwd())
+	console.log('------------__dirname', __dirname)
+
 	let proxy = {}
 	if (VITE_PROXY_URL) {
 		proxy = {
@@ -33,7 +36,7 @@ export default defineConfig(({ command, mode }) => {
 			plugins: [externalizeDepsPlugin(), bytecodePlugin()]
 		},
 		renderer: {
-			base: '/src/renderer/src',
+			base: '/src/renderer',
 			resolve: {
 				alias: {
 					'@': resolve('./src/renderer/src')
@@ -48,9 +51,10 @@ export default defineConfig(({ command, mode }) => {
 				// }),
 				vueSetupExtend(),
 				createSvgIconsPlugin({
-					iconDirs: [resolve(__dirname, '/src/renderer/src/icons/svg')],
+					iconDirs: [resolve('./src/renderer/src/icons/svg')],
 					symbolId: 'icon-[dir]-[name]'
 				}),
+
 				createHtmlPlugin({
 					inject: {
 						data: {
@@ -70,11 +74,27 @@ export default defineConfig(({ command, mode }) => {
         `
 				})
 			],
+			// 引入sass全局样式变量
+			css: {
+				preprocessorOptions: {
+					scss: {
+						additionalData: `@import "@/styles/variables.scss";`
+					}
+				}
+			},
 			server: {
 				host: '0.0.0.0',
 				port: VITE_PORT, // 端口号
 				open: VITE_OPEN, // 是否自动打开浏览器
 				proxy: proxy
+			},
+			// 构建
+			build: {
+				chunkSizeWarningLimit: 2000 // 消除打包大小超过500kb警告
+			},
+			esbuild: {
+				drop: mode === 'production' ? ['debugger'] : [],
+				pure: mode === 'production' ? ['console.log'] : []
 			}
 		}
 	}

@@ -76,7 +76,7 @@ export default [
 						url: '',
 						type: 0,
 						openStyle: 0,
-						icon: 'icon-filedone',
+						icon: 'menu-home',
 						authority: '',
 						sort: 3,
 						createTime: '2023-08-10 00:02:04'
@@ -103,7 +103,7 @@ export default [
 						url: '',
 						type: 0,
 						openStyle: 0,
-						icon: 'icon-filedone',
+						icon: 'icon-menu-table',
 						authority: '',
 						sort: 3,
 						createTime: '2023-08-10 00:02:04'

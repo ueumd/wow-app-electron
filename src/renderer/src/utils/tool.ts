@@ -80,6 +80,7 @@ export function getDictDataList(dictList: any[], dictType: string) {
 export const withInstall = <T>(component: T, alias?: string) => {
 	const comp = component as any
 	comp.install = (app: App) => {
+		// @ts-ignore (define in dts)
 		app.component(comp.name || comp.displayName, component)
 		if (alias) {
 			app.config.globalProperties[alias] = component

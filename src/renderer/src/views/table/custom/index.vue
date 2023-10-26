@@ -155,6 +155,7 @@ const select = (selection, row) => {
  */
 const selectAll = selection => {
 	console.log(selection)
+	state.selectedList = selection
 	// console.log(multipleTableRef?.value.store.states.isAllSelected.value)
 	if (multipleTableRef?.value && multipleTableRef?.value.store.states) {
 		const selectedData = multipleTableRef?.value.store.states.data.value
@@ -339,10 +340,10 @@ onMounted(() => {
 				class="selectedTable"
 				scrollbar-always-on
 			>
-				<el-table-column fixed label="序号" type="index" width="60" align="center" />
+				<el-table-column fixed label="序号" type="index" width="55" align="center" />
 				<el-table-column label="姓名" prop="name" />
 				<el-table-column label="创建时间" prop="createTime" align="center" width="160" />
-				<el-table-column align="center" label="操作" width="90">
+				<el-table-column align="center" label="操作" width="80">
 					<template #default="scope">
 						<el-button size="small" type="danger" @click="handleDeleteBySelected(scope.row)">删除</el-button>
 					</template>

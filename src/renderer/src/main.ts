@@ -5,6 +5,8 @@ import { router } from './router'
 import { registerStore } from '@/store'
 import emitter from '@/utils/emitter'
 import { i18n } from './i18n'
+
+// 支持SVG
 import 'virtual:svg-icons-register'
 
 import ElementPlus from 'element-plus'

@@ -5,14 +5,22 @@ const test = () => {
 	window.nodeFseApi?.remove('/xxff/ff')
 }
 
+// 写日志
 const writeLog = () => {
-	window.ipcApi.logger('info', 'Hello Logger!')
-	window.ipcApi.logger('error', 'Hello Logger!')
+	console.log('Hello Logger!')
+	console.error('Hello Logger!')
+	window.ipcApi?.logger('info', 'Hello Logger!')
+	window.ipcApi?.logger('error', 'Hello Logger!')
 }
 
+/**
+ * 打开窗口
+ * @param url
+ * @param title
+ */
 const openWin = (url, title) => {
 	window.ipcApi
-		.sendCreateChildWindow({
+		?.sendCreateChildWindow({
 			title,
 			route: url,
 			data: {
