@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useIpcRenderer } from '@vueuse/electron'
-const ipcRenderer = useIpcRenderer()
 const test = () => {
 	console.log(window.nodeFseApi)
 	window.nodeFseApi?.remove('/xxff/ff')
 }
 
 const writeLog = () => {
-	ipcRenderer.invoke('logger', 'info', 'Cancel the download')
+	window.ipcApi.log('info', 'Hello Logger!')
+	window.ipcApi.log('error', 'Hello Logger!')
 }
 
 const openWin = (url, title) => {

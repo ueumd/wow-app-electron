@@ -21,6 +21,18 @@ export function initIpcMain(primaryWindow) {
 		}
 	})
 
+	ipcMain.on('logger', (_, level, ...arg) => {
+		if (level === 'info') {
+			logger.info(...arg)
+		} else if (level === 'warn') {
+			logger.warn(...arg)
+		} else if (level === 'error') {
+			logger.error(...arg)
+		} else if (level === 'debug') {
+			logger.debug(...arg)
+		}
+	})
+
 	ipcMain.on('openLink', (_, params) => {
 		shell.openExternal(params)
 	})

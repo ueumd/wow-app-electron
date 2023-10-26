@@ -15,18 +15,18 @@ export type { INodeFseApi, IIpcApi }
 // renderer only if context isolation is enabled, otherwise
 // just add to the DOM global.
 if (process.contextIsolated) {
-  try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('nodeFseApi', nodeFseApi)
-    contextBridge.exposeInMainWorld('ipcApi', ipcApi)
-  } catch (error) {
-    console.error(error)
-  }
+	try {
+		contextBridge.exposeInMainWorld('electron', electronAPI)
+		contextBridge.exposeInMainWorld('nodeFseApi', nodeFseApi)
+		contextBridge.exposeInMainWorld('ipcApi', ipcApi)
+	} catch (error) {
+		console.error(error)
+	}
 } else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.nodeFseApi = nodeFseApi
-  // @ts-ignore (define in dts)
-  window.ipcApi = ipcApi
+	// @ts-ignore (define in dts)
+	window.electron = electronAPI
+	// @ts-ignore (define in dts)
+	window.nodeFseApi = nodeFseApi
+	// @ts-ignore (define in dts)
+	window.ipcApi = ipcApi
 }

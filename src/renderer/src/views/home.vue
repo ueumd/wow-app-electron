@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 onMounted(() => {
-  console.log('h')
+	console.log('h')
 })
 </script>
 
 <template>
-  <div>home</div>
+	<div>home</div>
 </template>
 
 <style lang="less"></style>

@@ -10,6 +10,10 @@ export class IpcApi {
 		return (this.instance = new IpcApi())
 	}
 
+	log(level, ...args) {
+		electronAPI.ipcRenderer.send('logger', level, ...args)
+	}
+
 	emit(channel: string, payload?: any) {
 		electronAPI.ipcRenderer.send(channel, payload)
 	}

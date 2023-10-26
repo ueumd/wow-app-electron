@@ -1,11 +1,11 @@
 <template>
-  <div class="layout-error">
-    <img src="@/assets/404.png" alt="404" />
-    <div>
-      <el-button type="primary" @click="onBack">onBack</el-button>
-      <el-button type="success" @click="onToHome">onToHome</el-button>
-    </div>
-  </div>
+	<div class="layout-error">
+		<img src="@/assets/404.png" alt="404" />
+		<div>
+			<el-button type="primary" @click="onBack">onBack</el-button>
+			<el-button type="success" @click="onToHome">onToHome</el-button>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -13,20 +13,20 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const onBack = () => {
-  router.back()
+	router.back()
 }
 const onToHome = () => {
-  router.replace('/')
+	router.replace('/')
 }
 </script>
 
 <style lang="scss" scoped>
 .layout-error {
-  img {
-    width: 800px;
-  }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	img {
+		width: 800px;
+	}
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 </style>

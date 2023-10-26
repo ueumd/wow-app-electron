@@ -1,7 +1,7 @@
 <template>
-  <el-card v-loading="loading">
-    <iframe :src="url" class="iframe" @load="load"></iframe>
-  </el-card>
+	<el-card v-loading="loading">
+		<iframe :src="url" class="iframe" @load="load"></iframe>
+	</el-card>
 </template>
 
 <script setup lang="ts">
@@ -14,37 +14,37 @@ const url = ref('')
 const loading = ref(false)
 
 watch(
-  () => route,
-  (value) => {
-    if (value.path === '/iframe') {
-      initUrl(value)
-    }
-  },
-  { deep: true }
+	() => route,
+	value => {
+		if (value.path === '/iframe') {
+			initUrl(value)
+		}
+	},
+	{ deep: true }
 )
 
 onMounted(() => {
-  initUrl(route)
+	initUrl(route)
 })
 const initUrl = (route: RouteLocationNormalizedLoaded): void => {
-  loading.value = true
+	loading.value = true
 
-  const { meta, query } = route
-  if (query.url) {
-    url.value = query.url as string
-  } else {
-    url.value = replaceLinkParam(meta.url as string)
-  }
+	const { meta, query } = route
+	if (query.url) {
+		url.value = query.url as string
+	} else {
+		url.value = replaceLinkParam(meta.url as string)
+	}
 }
 const load = () => {
-  loading.value = false
+	loading.value = false
 }
 </script>
 
 <style lang="scss" scoped>
 .iframe {
-  min-height: calc(100vh - 70px - var(--theme-header-height));
-  width: 100%;
-  border: 0;
+	min-height: calc(100vh - 70px - var(--theme-header-height));
+	width: 100%;
+	border: 0;
 }
 </style>
