@@ -1,5 +1,5 @@
 import { resolve } from 'path'
-import { bytecodePlugin, defineConfig, externalizeDepsPlugin } from 'electron-vite'
+import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { loadEnv } from './scripts/vite'
@@ -16,8 +16,8 @@ export default defineConfig(({ command, mode }) => {
 	// const isBuild = command === 'build'
 	// const sourcemap = isServe || !!process.env.VSCODE_DEBUG
 
-	console.log('------------process.cwd()', process.cwd())
-	console.log('------------__dirname', __dirname)
+	// console.log('------------process.cwd()', process.cwd())
+	// console.log('------------__dirname', __dirname)
 
 	let proxy = {}
 	if (VITE_PROXY_URL) {
@@ -30,10 +30,10 @@ export default defineConfig(({ command, mode }) => {
 	}
 	return {
 		main: {
-			plugins: [externalizeDepsPlugin(), bytecodePlugin()]
+			plugins: [externalizeDepsPlugin()]
 		},
 		preload: {
-			plugins: [externalizeDepsPlugin(), bytecodePlugin()]
+			plugins: [externalizeDepsPlugin()]
 		},
 		renderer: {
 			base: '/src/renderer',

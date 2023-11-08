@@ -1,13 +1,14 @@
-import { app, BrowserWindow, dialog, net, protocol } from 'electron'
+import { app, BrowserWindow, dialog, net, protocol, desktopCapturer } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import MultiWindows from './core/multi-windows'
 import { initIpcMain } from './ipc/ipc-main'
 import { isDev } from './core/utils'
 import * as updater from './core/updater'
+import nms from './core/media-server'
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
-const title = '哇塞'
+const title = 'Test'
 
 // 创建主窗口
 const createAppWindow = async () => {
@@ -59,6 +60,12 @@ const createAppWindow = async () => {
 		}
 	})
 
+	desktopCapturer.getSources({ types: ['window', 'screen'] }).then(_ => {
+		// for (const source of sources) {
+		// 	// console.log('source: ', source)
+		// }
+	})
+
 	// 执行自动更新
 	if (isDev) {
 		Object.defineProperty(app, 'isPackaged', {
@@ -98,6 +105,8 @@ app.whenReady().then(() => {
 		// dock icon is clicked and there are no other windows open.
 		if (BrowserWindow.getAllWindows().length === 0) createAppWindow()
 	})
+
+	nms.run()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

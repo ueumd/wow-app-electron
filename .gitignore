@@ -28,3 +28,4 @@ test-data
 *.njsproj
 *.sln
 *.sw?
+test-rtmp

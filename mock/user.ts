@@ -70,7 +70,33 @@ export default [
 								authority: 'sys:log:login',
 								sort: 0,
 								createTime: '2023-08-10 00:02:04'
-							}
+							},
+							{
+								id: 102,
+								pid: 100,
+								children: [],
+								name: '捕获窗口',
+								url: 'window/capture/index',
+								type: 0,
+								openStyle: 0,
+								icon: 'icon-solution',
+								authority: 'sys:log:login',
+								sort: 0,
+								createTime: '2023-08-10 00:02:04'
+							},
+              {
+                id: 102,
+                pid: 100,
+                children: [],
+                name: 'SMTP',
+                url: 'window/stream/index',
+                type: 0,
+                openStyle: 0,
+                icon: 'icon-solution',
+                authority: 'sys:log:login',
+                sort: 0,
+                createTime: '2023-08-10 00:02:04'
+              }
 						],
 						name: '窗口管理',
 						url: '',

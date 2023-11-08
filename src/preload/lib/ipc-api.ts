@@ -2,6 +2,9 @@ import { electronAPI } from '@electron-toolkit/preload'
 import channel from '../../channel'
 import { IWindowsConfig } from '../../types/electron-env'
 
+// import ffmpeg from 'fluent-ffmpeg'
+// import ffmpegPath from '@ffmpeg-installer/ffmpeg'
+
 export class IpcApi {
 	private static instance: IpcApi
 
@@ -19,19 +22,20 @@ export class IpcApi {
 	}
 
 	/**
-	 * main - renderer
+	 * 向主进程发送消息
 	 * @param payload
 	 */
-	send(payload) {
-		electronAPI.ipcRenderer.send(channel.MAIN_RENDERER_MESSAGE, payload)
+	sendMsgToMain(payload) {
+		electronAPI.ipcRenderer.send(channel.MAIN_TO_RENDERER, payload)
 	}
 
 	/**
-	 * main - renderer
+	 * 主进程向渲染发送消息
 	 * @param callback
 	 */
-	on(callback) {
-		electronAPI.ipcRenderer.on(channel.MAIN_RENDERER_MESSAGE, (_, data) => {
+	onMainMsg(callback) {
+		electronAPI.ipcRenderer.removeAllListeners(channel.MAIN_TO_RENDERER)
+		electronAPI.ipcRenderer.on(channel.MAIN_TO_RENDERER, (_, data) => {
 			callback(data)
 		})
 	}
@@ -85,5 +89,22 @@ export class IpcApi {
 				reject(data)
 			})
 		})
+	}
+
+	sendCapture() {
+		electronAPI.ipcRenderer.on('SET_SOURCE', async (_, sourceId) => {
+			console.log('sourceId: ', sourceId)
+		})
+	}
+
+	/**
+	 * 启动 SMTP 服务
+	 */
+	bootNodeMediaServe() {
+		electronAPI.ipcRenderer.send(channel.BOOT_NODE_MEDIA_SERVER)
+	}
+
+	sendExecuteFfmpeg(filePath: string) {
+		electronAPI.ipcRenderer.send(channel.FFMPEG_PUBLISH, filePath)
 	}
 }
