@@ -107,4 +107,7 @@ export class IpcApi {
 	sendExecuteFfmpeg(filePath: string) {
 		electronAPI.ipcRenderer.send(channel.FFMPEG_PUBLISH, filePath)
 	}
+	closeFfmpeg() {
+		electronAPI.ipcRenderer.send(channel.CLOSE_FFMPEG)
+	}
 }

@@ -31,7 +31,7 @@ export function updateAppClient(mainWindow: any) {
 	}
 
 	autoUpdater.checkForUpdates().then(res => {
-		// console.log(res)
+		console.log(res)
 	})
 
 	// 设置版本更新服务器地址

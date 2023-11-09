@@ -4,6 +4,13 @@ import { onMounted, ref } from 'vue'
 
 const filePath = ref('E:\\coding\\github-me\\front\\wow-app-electron\\test-rtmp\\video\\rst_lmm_1.mp4')
 
+let videoIndex = 0
+const videoList = [
+	'E:\\coding\\github-me\\front\\wow-app-electron\\test-rtmp\\video\\rst_lmm_1.mp4',
+	'E:\\coding\\github-me\\front\\wow-app-electron\\test-rtmp\\video\\rst_lmm_2.mp4',
+	'E:\\coding\\github-me\\front\\wow-app-electron\\test-rtmp\\video\\rst_lmm_3.mp4'
+]
+
 const bootServe = () => {
 	window.ipcApi.bootNodeMediaServe()
 }
@@ -11,12 +18,21 @@ const bootServe = () => {
 const listenNMSServer = () => {
 	window.ipcApi.onMainMsg(res => {
 		console.log('nms: ', res)
+		if (res.type === 'ffmpeg' && res.data === 'Finished') {
+			publishStream()
+		}
 	})
 }
 
 let flvPlayer: any
+let isPlaying = false
 
 const playVideo = () => {
+	if (isPlaying) {
+		continuePlay()
+		return
+	}
+
 	if (flvjs.isSupported()) {
 		const videoElement = document.querySelector('#PiXiuLiveRoom')
 		flvPlayer = flvjs.createPlayer(
@@ -37,12 +53,18 @@ const playVideo = () => {
 		flvPlayer.attachMediaElement(<HTMLMediaElement>videoElement)
 		flvPlayer.load()
 		flvPlayer.play()
+		isPlaying = true
 	}
 }
 
 const videoEnded = () => {
 	console.log('play ended')
-	flvPlayer.play()
+	flvPlayer.unload()
+	setTimeout(() => {
+		flvPlayer.load()
+		flvPlayer.play()
+		isPlaying = true
+	}, 10)
 }
 
 /**
@@ -53,11 +75,22 @@ const destroyVideo = () => {
 	flvPlayer.detachMediaElement()
 	flvPlayer.destroy()
 	flvPlayer = null
+
+	window.ipcApi.closeFfmpeg()
 }
 
 const reloadVideo = () => {
 	destroyVideo()
 	playVideo()
+}
+
+const playVideoPause = () => {
+	flvPlayer.pause()
+	isPlaying = false
+}
+
+const continuePlay = () => {
+	flvPlayer.play()
 }
 
 onMounted(() => {
@@ -67,7 +100,13 @@ onMounted(() => {
 
 const publishStream = () => {
 	// 'E:\\coding\\github-me\\front\\wow-app-electron\\test-rtmp\\video\\rst_lmm_1.mp4'
-	window.ipcApi.sendExecuteFfmpeg(filePath.value)
+	if (videoIndex > videoList.length - 1) {
+		videoIndex = 0
+	}
+	const vpath = videoList[videoIndex]
+	console.log('path', vpath)
+	window.ipcApi.sendExecuteFfmpeg(vpath)
+	videoIndex += 1
 }
 </script>
 
@@ -78,6 +117,7 @@ const publishStream = () => {
 				<el-button type="primary" @click="bootServe">启动服务</el-button>
 				<el-button type="primary" @click="publishStream">开始推流</el-button>
 				<el-button type="primary" @click="playVideo">播放</el-button>
+				<el-button type="primary" @click="playVideoPause">暂停</el-button>
 				<el-button type="danger" @click="destroyVideo">结束</el-button>
 			</div>
 			<div class="mb-1">

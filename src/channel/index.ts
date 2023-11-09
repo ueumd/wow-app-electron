@@ -14,5 +14,7 @@ export default {
 	// 启动RTMP服务
 	BOOT_NODE_MEDIA_SERVER: 'boot-node-media-server',
 
-	FFMPEG_PUBLISH: 'FFMPEG_PUBLISH'
+	FFMPEG_PUBLISH: 'FFMPEG_PUBLISH',
+
+	CLOSE_FFMPEG: 'CLOSE_FFMPEG'
 }

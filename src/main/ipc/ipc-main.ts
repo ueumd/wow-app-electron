@@ -2,6 +2,7 @@ import { BrowserWindow, ipcMain, shell } from 'electron'
 import logger from '../core/logger'
 import channel from '../../channel'
 import nms from '../core/media-server'
+import * as util from '../core/utils'
 
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path.replace('app.asar', 'app.asar.unpacked') // 避免在Electron打包的时候找不到asar之外的ffmpeg路径。
 // const ffmpegPath = require('@ffmpeg-installer/ffmpeg')
@@ -88,6 +89,12 @@ export function initIpcMain(primaryWindow) {
 				end: true
 			})
 			.run()
+	})
+
+	ipcMain.on(channel.CLOSE_FFMPEG, _ => {
+		util.findProcessIdByName('ffmpeg.exe', pid => {
+			process.kill(pid)
+		})
 	})
 
 	// 渲染进程与渲染进程通信
