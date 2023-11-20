@@ -83,26 +83,40 @@ export default [
 								authority: 'sys:log:login',
 								sort: 0,
 								createTime: '2023-08-10 00:02:04'
-							},
-              {
-                id: 102,
-                pid: 100,
-                children: [],
-                name: 'SMTP',
-                url: 'window/stream/index',
-                type: 0,
-                openStyle: 0,
-                icon: 'icon-solution',
-                authority: 'sys:log:login',
-                sort: 0,
-                createTime: '2023-08-10 00:02:04'
-              }
+							}
 						],
 						name: '窗口管理',
 						url: '',
 						type: 0,
 						openStyle: 0,
 						icon: 'menu-home',
+						authority: '',
+						sort: 3,
+						createTime: '2023-08-10 00:02:04'
+					},
+					{
+						id: 300,
+						pid: 0,
+						children: [
+							{
+								id: 301,
+								pid: 300,
+								children: [],
+								name: 'RTMP',
+								url: 'rtc/rtmp/index',
+								type: 0,
+								openStyle: 0,
+								icon: 'icon-solution',
+								authority: 'sys:log:login',
+								sort: 0,
+								createTime: '2023-08-10 00:02:04'
+							}
+						],
+						name: 'WebRTC',
+						url: '',
+						type: 0,
+						openStyle: 0,
+						icon: 'icon-menu-table',
 						authority: '',
 						sort: 3,
 						createTime: '2023-08-10 00:02:04'
