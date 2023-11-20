@@ -7,6 +7,7 @@ import { viteMockServe } from 'vite-plugin-mock'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 import * as pkg from './package.json'
+import mkcert from'vite-plugin-mkcert'
 // import AutoImport from 'unplugin-auto-import/vite'
 
 export default defineConfig(({ command, mode }) => {
@@ -43,6 +44,7 @@ export default defineConfig(({ command, mode }) => {
 				}
 			},
 			plugins: [
+				mkcert(),
 				vue(),
 				// AutoImport({
 				// 	// 自动导入vue相关函数，如: ref、reactive、toRef等
@@ -83,6 +85,7 @@ export default defineConfig(({ command, mode }) => {
 				}
 			},
 			server: {
+				https: true,
 				host: '0.0.0.0',
 				port: VITE_PORT, // 端口号
 				open: VITE_OPEN, // 是否自动打开浏览器

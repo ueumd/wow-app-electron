@@ -72,6 +72,7 @@
 		"unplugin-auto-import": "^0.16.6",
 		"vite": "^4.4.9",
 		"vite-plugin-html": "^3.2.0",
+		"vite-plugin-mkcert": "^1.17.1",
 		"vite-plugin-mock": "2.9.8",
 		"vite-plugin-svg-icons": "^2.0.1",
 		"vite-plugin-vue-setup-extend": "^0.4.0",

@@ -110,6 +110,32 @@ export default [
 								authority: 'sys:log:login',
 								sort: 0,
 								createTime: '2023-08-10 00:02:04'
+							},
+							{
+								id: 302,
+								pid: 300,
+								children: [],
+								name: 'VideoCapture',
+								url: 'rtc/webrtc/video-capture',
+								type: 0,
+								openStyle: 0,
+								icon: 'icon-solution',
+								authority: 'sys:log:login',
+								sort: 0,
+								createTime: '2023-08-10 00:02:04'
+							},
+							{
+								id: 302,
+								pid: 300,
+								children: [],
+								name: 'WebRTC',
+								url: 'rtc/webrtc/media',
+								type: 0,
+								openStyle: 0,
+								icon: 'icon-solution',
+								authority: 'sys:log:login',
+								sort: 0,
+								createTime: '2023-08-10 00:02:04'
 							}
 						],
 						name: 'WebRTC',
